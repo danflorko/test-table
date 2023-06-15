@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getProduct } from 'src/controller/api';
 import { IProduct } from 'src/controller/types';
-import Spinner from 'src/view/elements/Spinner';
+import Spinner from 'src/view/ui/Spinner';
 import ProductCard from '../ProductCard';
 import './styles.scss';
 

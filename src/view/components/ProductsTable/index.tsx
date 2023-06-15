@@ -6,7 +6,7 @@ import { EFilterType, ESortType } from 'src/controller/enums';
 import { IProduct, TProductOnlyString } from 'src/controller/types';
 import { useAppDispatch } from 'src/controller/utils/hooks';
 import { deleteProduct } from 'src/model/reducers/products';
-import TableHeader from 'src/view/elements/TableHeader';
+import TableHeader from 'src/view/ui/TableHeader';
 import EditModal from '../EditModal';
 import './styles.scss';
 

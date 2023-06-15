@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import ProductsTable from 'src/view/components/ProductsTable';
-import InputText from 'src/view/elements/InputText';
+import InputText from 'src/view/ui/InputText';
 import './styles.scss';
 import { useAppDispatch, useAppSelector } from 'src/controller/utils/hooks';
 import { fetchData } from 'src/model/reducers/products';

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import InputText from 'src/view/elements/InputText';
+import InputText from 'src/view/ui/InputText';
 import { useAppDispatch } from 'src/controller/utils/hooks';
 import { addProduct } from 'src/model/reducers/products';
 

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { IProduct } from 'src/controller/types';
 import { useAppDispatch } from 'src/controller/utils/hooks';
 import { editProduct } from 'src/model/reducers/products';
-import InputText from 'src/view/elements/InputText';
+import InputText from 'src/view/ui/InputText';
 import * as Yup from 'yup';
 
 interface EditModalProps {
