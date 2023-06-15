@@ -1,4 +1,4 @@
-export enum ESortType {
+export enum ESortTypes {
   DISABLE = 'Disable',
   AZ = 'az',
   ZA = 'za',
