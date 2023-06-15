@@ -62,17 +62,17 @@ const TableHeader: FC<TableHeaderProps> = ({
 				<>
 					<img
 						className={`table-header__img btn ${
-							currentSortType === ESortTypes.AZ ? 'active' : ''
+							currentSortType === ESortTypes.ZA ? 'active' : ''
 						}`}
 						src="images/buttons/upArrow.svg"
-						onClick={() => handleSort(ESortTypes.AZ)}
+						onClick={() => handleSort(ESortTypes.ZA)}
 					/>
 					<img
 						className={`table-header__img btn ${
-							currentSortType === ESortTypes.ZA ? 'active' : ''
+							currentSortType === ESortTypes.AZ ? 'active' : ''
 						}`}
 						src="images/buttons/downArrow.svg"
-						onClick={() => handleSort(ESortTypes.ZA)}
+						onClick={() => handleSort(ESortTypes.AZ)}
 					/>
 					<button type="button" className="table-header__btn">
 						<img

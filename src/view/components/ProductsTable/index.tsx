@@ -71,10 +71,8 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 						return ESortTypes.ZA;
 
 					case ESortTypes.DISABLE:
-						setSortedProducts(products);
-						return ESortTypes.DISABLE;
 					default:
-						setSortedProducts(products);
+						setSortedProducts(prev => prev.sort((x, y) => x.id - y.id));
 						return ESortTypes.DISABLE;
 				}
 			});
