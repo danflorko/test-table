@@ -5,6 +5,7 @@
   border-spacing: 0;
 
   &__head {
+    position: -webkit-sticky;
     position: sticky;
     z-index: 1;
     top: 60px;
@@ -45,6 +46,7 @@
     &--small {
       width: 10%;
     }
+
     &--medium {
       width: 30%;
     }
@@ -55,48 +57,6 @@
 
     &:last-child {
       border-top-right-radius: 10px;
-    }
-
-
-  }
-
-  &__data {
-    border-bottom: 1px solid #fff;
-
-    &:last-child {
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-
-    &--bold {
-      cursor: pointer;
-      font-weight: 700;
-    }
-  }
-
-  &__img {
-    width: 40px;
-    height: 40px;
-    transition: all 500ms linear;
-
-    &:active {
-      transform: scale(6) translateX(20px) translateY(20px);
-    }
-  }
-
-  &__actions {
-    border-bottom: 1px solid #fff;
-    text-align: center;
-    padding: 5px;
-
-    &--space {
-      height: 24px;
-      width: 24px;
-
-      &:not(:first-child) {
-        margin-left: 10px;
-      }
-
     }
   }
 }
