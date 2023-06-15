@@ -1,1 +1,10 @@
-<?xml version="1.0" ?><svg data-name="Layer 1" id="Layer_1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256,34,432,210l-21.2,21.21L271,91.4V478H241V91.4L101.16,231.25,80,210Z"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1000"
+    height="1000" viewBox="0 0 1000 1000" xml:space="preserve" stroke="rgb(0,108,134)">
+    <g transform="matrix(2.0475 0 0 2.0475 499.9996 499.9995)" id="801345">
+        <path
+            style="stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; is-custom-font: none; font-file-url: none; fill-rule: nonzero; opacity: 1;"
+            vector-effect="non-scaling-stroke" transform=" translate(-256, -256)"
+            d="M 256 34 L 432 210 l -21.2 21.21 L 271 91.4 V 478 H 241 V 91.4 L 101.16 231.25 L 80 210 Z"
+            stroke-linecap="round" />
+    </g>
+</svg>

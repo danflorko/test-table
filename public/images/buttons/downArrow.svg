@@ -1,1 +1,10 @@
-<?xml version="1.0" ?><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title/><g data-name="Layer 2" id="Layer_2"><path d="M16,29a1,1,0,0,1-.71-.29l-9-9a1,1,0,0,1,1.42-1.42L16,26.59l8.29-8.3a1,1,0,0,1,1.42,1.42l-9,9A1,1,0,0,1,16,29Z"/><path d="M16,29a1,1,0,0,1-1-1V4a1,1,0,0,1,2,0V28A1,1,0,0,1,16,29Z"/></g><g id="frame"><rect class="cls-1" height="32" width="32"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1000"
+    height="1000" viewBox="0 0 1000 1000" xml:space="preserve" stroke="rgb(0,108,134)">
+    <g transform="matrix(2.0475 0 0 -2.0475 499.9996 499.9995)" id="801345">
+        <path class="svg-path"
+            style="stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; is-custom-font: none; font-file-url: none; fill-rule: nonzero; opacity: 1;"
+            vector-effect="non-scaling-stroke" transform=" translate(-256, -256)"
+            d="M 256 34 L 432 210 l -21.2 21.21 L 271 91.4 V 478 H 241 V 91.4 L 101.16 231.25 L 80 210 Z"
+            stroke-linecap="round" />
+    </g>
+</svg>
