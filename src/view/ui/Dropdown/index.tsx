@@ -1,34 +1,38 @@
 import { FC } from 'react';
-import { useFormikContext } from 'formik';
 import './styles.scss';
 
 interface DropdownProps {
   name: string;
   label: string;
-  onBlur: (e: React.FocusEvent<HTMLSelectElement, Element>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLSelectElement, Element>) => void;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>, name: string) => void;
   error?: string | false;
+  small?: boolean
 }
 
 const CategoryDropdown: FC<DropdownProps> = ({
   name,
-  label,
   onBlur,
   error,
   value,
-  onChange
+  onChange,
+  small = false,
 }) => {
 
   return (
-    <div className="category-dropdown">
+    <div className={small ? 'category-dropdown category-dropdown--small' : 'category-dropdown'}>
       <select
         name={name}
         value={value}
         onChange={(e) => onChange(e, name)}
         onBlur={onBlur}
+        className={small ? 'small' : 'category-dropdown__select'}
       >
         <option value="" disabled>{`Select a ${name}:`}</option>
+        {small && (
+          <option value="">All</option>
+        )}
         <option value="smartphones">Smartphones</option>
         <option value="laptops">Laptops</option>
         <option value="fragrances">Fragrances</option>

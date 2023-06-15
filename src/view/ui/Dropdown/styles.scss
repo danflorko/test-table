@@ -3,6 +3,12 @@
   width: 117%;
   margin: 0;
 
+  &--small {
+    width: 100%;
+    margin-bottom: 2px;
+    font-size: 10px
+  }
+
   &__error-message {
     position: relative;
     top: 5px;
@@ -13,7 +19,7 @@
     margin: 5px 0;
   }
 
-  select {
+  &__select {
     height: 50px;
     width: 100%;
     font-size: 1rem;
@@ -28,4 +34,8 @@
       box-shadow: 0 0 10px #fff;
     }
   }
+}
+
+.small {
+  height: 30px;
 }

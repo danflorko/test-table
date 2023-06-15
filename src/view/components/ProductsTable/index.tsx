@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import TableHeader from 'src/view/ui/TableHeader';
 import { ESortTypes } from 'src/controller/enums';
 import { sortByProperty } from 'src/controller/utils/helpers';
-import type { IProduct, TProductOnlyString } from 'src/controller/types';
+import type { IMinMaxValuesOfProducts, IProduct, TProductOnlyString } from 'src/controller/types';
 
 import './styles.scss';
 import ProductRow from '../ProductRow';
@@ -32,6 +32,7 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 	const [filteredProducts, setFilteteredProducts] = useState<IProduct[] | null>(
 		null
 	);
+  const [minMaxValuesOfProducts, setMinMaxValuesOfProducts] = useState<IMinMaxValuesOfProducts | null>(null);
 
 	const handleMinMaxFiltersChange = useCallback(
 		(value: string, min: string = '0', max: string = '9999999') => {
@@ -95,11 +96,30 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 		[sortedProducts]
 	);
 
+  useEffect(() => {
+  const getMinMaxValues = async () => {
+    const filteredProducts = products.filter(product => product !== undefined);
+
+    setMinMaxValuesOfProducts({
+      minPrice: Math.min(...filteredProducts.map(product => product.price)),
+      maxPrice: Math.max(...filteredProducts.map(product => product.price)),
+      minStock: Math.min(...filteredProducts.map(product => product.stock)),
+      maxStock: Math.max(...filteredProducts.map(product => product.stock)),
+      minRating: Math.min(...filteredProducts.map(product => product.rating)),
+      maxRating: Math.max(...filteredProducts.map(product => product.rating)),
+    });
+  };
+
+  getMinMaxValues();
+}, []);
+
+  console.log(minMaxValuesOfProducts);
+
 	return (
 		<table className="products-table">
 			<thead className="products-table__head">
 				<tr className="products-table__row">
-					{productsKeys.map((productKey: string, index) => (
+					{minMaxValuesOfProducts && productsKeys.map((productKey: string, index) => (
 						<th
 							key={index}
 							className={classNames('products-table__header', {
@@ -108,6 +128,7 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 							})}
 						>
 							<TableHeader
+                minMaxValuesOfProducts = {minMaxValuesOfProducts}
 								currentSortType={sortType}
 								productKey={productKey}
 								onSortTypeChange={handlESortTypesChange}

@@ -1,3 +1,5 @@
+import { number } from "yup";
+
 export interface IProduct {
   id: number;
   title: string;
@@ -12,3 +14,12 @@ export interface IProduct {
 };
 
 export type TProductOnlyString = Omit<IProduct, 'id' | 'price' | 'rating' | 'stock' | 'images'>
+
+export interface IMinMaxValuesOfProducts {
+  minPrice: number;
+  maxPrice: number;
+  minStock: number;
+  maxStock: number;
+  minRating: number;
+  maxRating: number;
+}

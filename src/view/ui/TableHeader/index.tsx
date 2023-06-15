@@ -1,8 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { FC } from 'react';
-import type { IProduct, TProductOnlyString } from 'src/controller/types';
+import type { IMinMaxValuesOfProducts, IProduct, TProductOnlyString } from 'src/controller/types';
 import { ESortTypes } from 'src/controller/enums';
 import './styles.scss';
+import CategoryDropdown from '../Dropdown';
 
 interface TableHeaderProps {
   productKey: string;
@@ -10,6 +11,7 @@ interface TableHeaderProps {
   currentSortType: ESortTypes;
   onFiltersChange: (value: string, fieldName: keyof TProductOnlyString) => void;
   onMinMaxChage: (value: string, min?: string, max?: string) => void;
+  minMaxValuesOfProducts: IMinMaxValuesOfProducts
 }
 
 const TableHeader: FC<TableHeaderProps> = ({
@@ -18,11 +20,13 @@ const TableHeader: FC<TableHeaderProps> = ({
   currentSortType,
   onFiltersChange,
   onMinMaxChage,
+  minMaxValuesOfProducts,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState<string>('');
   const [min, setMin] = useState<string>('');
   const [max, setMax] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const handleSort = useCallback(
     (sortType: ESortTypes) => {
@@ -50,6 +54,37 @@ const TableHeader: FC<TableHeaderProps> = ({
     setMax(value);
   }, []);
 
+  const handleChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>, name: string) => {
+    setSelectedCategory(e.target.value)
+    onFiltersChange(
+      e.target.value,
+      productKey.toLocaleLowerCase() as keyof TProductOnlyString
+    )
+  };
+
+  console.log(min, max);
+
+  useEffect(() => {
+    switch (productKey) {
+      case 'Price':
+        setMin(minMaxValuesOfProducts.minPrice.toString());
+        setMax(minMaxValuesOfProducts.maxPrice.toString())
+        break;
+
+      case 'Rating':
+        setMin(minMaxValuesOfProducts.minRating.toString());
+        setMax(minMaxValuesOfProducts.maxRating.toString())
+        break;
+
+      case 'Stock':
+        setMin(minMaxValuesOfProducts.minStock.toString());
+        setMax(minMaxValuesOfProducts.maxStock.toString())
+        break;
+      default:
+        break;
+    }
+  }, [])
+
   return (
     <>
       {productKey}
@@ -76,8 +111,7 @@ const TableHeader: FC<TableHeaderProps> = ({
 
               <>
                 {productKey === 'Name' ||
-                  productKey === 'Description' ||
-                  productKey === 'Category' ? (
+                  productKey === 'Description' ? (
                   <div className="table-header__filters minmax" onBlur={() => {
                     handleIsOpenChange();
                     onFiltersChange(
@@ -102,6 +136,17 @@ const TableHeader: FC<TableHeaderProps> = ({
                       Apply
                     </button>
                   </div>
+                ) : productKey === 'Category' ? (
+                  <>
+                    <CategoryDropdown
+                      name={productKey}
+                      label={productKey}
+                      value={selectedCategory}
+                      onChange={handleChangeCategory}
+                      small={true}
+                    />
+                  </>
+
                 ) : (
                   <div className="table-header__filters" onBlur={() => {
                     onMinMaxChage(productKey.toLocaleLowerCase());
