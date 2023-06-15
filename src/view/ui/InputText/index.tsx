@@ -3,7 +3,7 @@ import './styles.scss';
 
 interface InputTextProps {
 	label: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>, name: string) => void;
 	onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
 	value?: string | number;
 	error?: string | false;
@@ -22,12 +22,11 @@ const InputText: FC<InputTextProps> = ({
 		<div className='input-box'>
 			<input
 				type='text'
-				required
 				name={name}
 				value={value}
 				placeholder={error || ''}
 				className={error ? 'input-box__text-field input-box__text-field--error' : 'input-box__text-field'}
-				onChange={onChange}
+				onChange={(e) => onChange(e, name as string)}
 				onBlur={onBlur}
 			/>
       {error && <p className='input-box__error-message'>{error}</p>}

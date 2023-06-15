@@ -7,7 +7,7 @@ interface DropdownProps {
   label: string;
   onBlur: (e: React.FocusEvent<HTMLSelectElement, Element>) => void;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>, name: string) => void;
   error?: string | false;
 }
 
@@ -25,7 +25,7 @@ const CategoryDropdown: FC<DropdownProps> = ({
       <select
         name={name}
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e, name)}
         onBlur={onBlur}
       >
         <option value="" disabled>{`Select a ${name}:`}</option>

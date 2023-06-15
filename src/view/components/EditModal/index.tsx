@@ -4,22 +4,13 @@ import { IProduct } from 'src/controller/types';
 import { useAppDispatch } from 'src/controller/utils/hooks';
 import { editProduct } from 'src/model/reducers/products';
 import InputText from 'src/view/ui/InputText';
-import * as Yup from 'yup';
+import { validationSchema } from 'src/controller/utils/helpers'
+import CategoryDropdown from 'src/view/ui/Dropdown';
 
 interface EditModalProps {
 	handleClose: () => void;
 	product: IProduct;
-}
-
-const validationSchema = Yup.object().shape({
-	title: Yup.string().required('Title is required'),
-	description: Yup.string().required('Description is required'),
-	price: Yup.number().required('Price is required'),
-	thumbnail: Yup.string().required('Photo is required'),
-	rating: Yup.number().required('Rating is required'),
-	stock: Yup.number().required('Stock is required'),
-	category: Yup.string().required('Category is required'),
-});
+};
 
 const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 	const { id, title, description, price, thumbnail, rating, stock, category } =
@@ -39,8 +30,14 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 		validationSchema,
 		onSubmit: (values) => {
 			dispatch(editProduct({ id, values }));
+      localStorage.removeItem('Product');
 		},
 	});
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>, name: string) => {
+    formik.handleChange(e);
+    localStorage.setItem('Product', JSON.stringify({ ...formik.values, [name]: name === ('price' || 'stock' || 'rating') ? +e.target.value : e.target.value}));
+  }
 
 	return (
 		<>
@@ -52,7 +49,7 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 					<InputText
 						name="thumbnail"
 						value={formik.values.thumbnail}
-						onChange={formik.handleChange}
+						onChange={handleOnChange}
 						onBlur={formik.handleBlur}
 						error={formik.touched.thumbnail && formik.errors.thumbnail}
 						label="Photo"
@@ -60,7 +57,7 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 					<InputText
 						name="title"
 						value={formik.values.title}
-						onChange={formik.handleChange}
+						onChange={handleOnChange}
 						onBlur={formik.handleBlur}
 						error={formik.touched.title && formik.errors.title}
 						label="Name"
@@ -68,7 +65,7 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 					<InputText
 						name="description"
 						value={formik.values.description}
-						onChange={formik.handleChange}
+						onChange={handleOnChange}
 						onBlur={formik.handleBlur}
 						error={formik.touched.description && formik.errors.description}
 						label="Description"
@@ -76,7 +73,7 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 					<InputText
 						name="price"
 						value={formik.values.price}
-						onChange={formik.handleChange}
+						onChange={handleOnChange}
 						onBlur={formik.handleBlur}
 						error={formik.touched.price && formik.errors.price}
 						label="Price"
@@ -85,7 +82,7 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 						name="rating"
 						label="Rating"
 						value={formik.values.rating}
-						onChange={formik.handleChange}
+						onChange={handleOnChange}
 						onBlur={formik.handleBlur}
 						error={formik.touched.rating && formik.errors.rating}
 					/>
@@ -93,18 +90,18 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 						name="stock"
 						label="Stock"
 						value={formik.values.stock}
-						onChange={formik.handleChange}
+						onChange={handleOnChange}
 						onBlur={formik.handleBlur}
 						error={formik.touched.stock && formik.errors.stock}
 					/>
-					<InputText
-						name="category"
-						label="Category"
-						value={formik.values.category}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						error={formik.touched.category && formik.errors.category}
-					/>
+					<CategoryDropdown
+            name='category'
+            label='Category'
+            value={formik.values.category}
+            onChange={handleOnChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.category && formik.errors.category}
+          />
 				</div>
 				<div className="form__buttons">
 					<button type="submit" className="form__button btn">

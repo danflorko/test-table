@@ -22,6 +22,7 @@ const ProductsPage: FC = () => {
 
 	const handleClose = useCallback(() => {
 		setIsOpen(false);
+    localStorage.removeItem('ProductAdd');
 	}, []);
 
 	const handleToggleOpen = useCallback(() => setIsOpen((prev) => !prev), []);
@@ -50,6 +51,17 @@ const ProductsPage: FC = () => {
 			)
 		);
 	}, [products, query]);
+
+  useEffect(() => {
+    const checkLocalStorage = () => {
+      const productFromLocalStorage = localStorage.getItem('ProductAdd');
+      if (productFromLocalStorage) {
+        setIsOpen(true);
+      }
+    }
+
+    checkLocalStorage();
+  }, []);
 
 	return (
 		<>
