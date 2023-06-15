@@ -10,6 +10,9 @@
 
   &__apply {
     cursor: pointer;
+    background-color: #fff;
+    border: none;
+    border-radius: 3px;
   }
 
   &__btn {
@@ -19,36 +22,32 @@
   }
 
   &__filters {
-    position: absolute;
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
+    align-items: center;
+    gap: 5px;
     padding: 10px;
-    top: 35px;
-    right: 0;
     z-index: 1;
-    background: #000;
-    border-radius: 20px;
-    border: 2px solid #fff;
-    width: 200px;
-    height: 100px;
-
-    &--large {
-      height: 170px;
-    }
+    border-top: 1px solid #fff;
 
     &-btn {
       display: flex;
       justify-content: space-between;
-
-      button {
-        width: 45%;
-      }
+      margin: 0;
     }
+  }
 
-    h1 {
-      font-size: 14px;
-      color: #fff;
+  &__title {
+    font-size: 14px;
+    color: #fff;
+    margin: 0;
+  }
+
+  &__input {
+    width: 20px;
+
+    &--large {
+      width: 60px;
     }
   }
 }
