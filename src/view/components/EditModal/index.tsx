@@ -36,7 +36,7 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>, name: string) => {
     formik.handleChange(e);
-    localStorage.setItem('Product', JSON.stringify({ ...formik.values, [name]: name === ('price' || 'stock' || 'rating') ? +e.target.value : e.target.value}));
+    localStorage.setItem('Product', JSON.stringify({ ...formik.values, id: product.id, [name]: name === ('price' || 'stock' || 'rating') ? +e.target.value : e.target.value}));
   }
 
 	return (

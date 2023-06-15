@@ -21,6 +21,8 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
   const navigate = useNavigate();
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
 
+  console.log(editingProduct);
+
   const handleDelete = useCallback(() => {
     dispatch(deleteProduct({ id: product.id }));
   }, [dispatch, product.id]);
@@ -42,9 +44,9 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
   useEffect(() => {
     const checkLocalStorage = () => {
       const productFromLocalStorage = localStorage.getItem('Product');
-      if (productFromLocalStorage) {
-        const savedLocalStorageValues: IProduct = JSON.parse(productFromLocalStorage);
-
+      const savedLocalStorageValues: IProduct | null = productFromLocalStorage ? JSON.parse(productFromLocalStorage) : null;
+      if (savedLocalStorageValues && savedLocalStorageValues.id === product.id) {
+        console.log('dawd');
         setEditingProduct(savedLocalStorageValues);
       }
     }
