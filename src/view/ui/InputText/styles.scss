@@ -1,7 +1,17 @@
 .input-box {
   position: relative;
-  background: #FAFAFA;
+
   border-radius: 8px;
+
+  &__error-message {
+    position: relative;
+    top: -2px;
+    height: fit-content;
+    line-height: 16px;
+    font-size: 12px;
+    color: #e65555;
+    margin: 5px 0;
+  }
 
 
   &__text-field {
@@ -19,6 +29,11 @@
     &:focus {
       border: 1px solid #FAFAFA;
       box-shadow: 0 0 7px #FAFAFA ;
+    }
+
+    &--error {
+      box-shadow: 0 0 10px #e65555;
+      background: #ffa8a8;
     }
   }
 
@@ -49,6 +64,21 @@
   padding: 0 10px;
   border-radius: 30px;
   background: #FAFAFA;
+
+  &::after {
+    content: '';
+  }
+}
+
+.error {
+  transform: translateX(10px) translateY(-12px);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  padding: 0 10px;
+  border-radius: 30px;
+  background: #FAFAFA;
+  box-shadow: 0 0 10px #e65555;
 
   &::after {
     content: '';

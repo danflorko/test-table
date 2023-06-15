@@ -29,13 +29,14 @@
 
   &__add-modal {
     position: fixed;
+    overflow-y: auto;
+    max-height: calc(100vh - 210px);
     display: flex;
     flex-direction: column;
     gap: 40px;
     background: #4f4d4d;
     padding: 100px 45px 100px 15px;
     width: 200px;
-    height: 100%;
     z-index: 1;
     right: 0;
     top: 0;
