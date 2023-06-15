@@ -1,0 +1,60 @@
+.table-header {
+  &__img {
+    cursor: pointer;
+    vertical-align: baseline;
+    margin-left: 5px;
+    padding: 5px 0 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__apply {
+    cursor: pointer;
+  }
+
+  &__btn {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  &__filters {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+    top: 35px;
+    right: 0;
+    z-index: 1;
+    background: #000;
+    border-radius: 20px;
+    border: 2px solid #fff;
+    width: 200px;
+    height: 100px;
+
+    &--large {
+      height: 170px;
+    }
+
+    &-btn {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        width: 45%;
+      }
+    }
+
+    h1 {
+      font-size: 14px;
+      color: #fff;
+    }
+  }
+}
+
+.active {
+  background-position-y: center;
+  background-color: #fff;
+  border-radius: 2px;
+}

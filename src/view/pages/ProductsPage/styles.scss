@@ -1,0 +1,87 @@
+.products {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__search {
+    z-index: 2;
+    position: sticky;
+    top: 8px;
+    width: 40%;
+    margin-top: 10px;
+    margin-bottom: 60px;
+  }
+
+  &__container-add {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  &__add {
+    padding: 2px;
+      border-radius: 40px;
+      width: 50px;
+      height: 50px;
+  }
+
+  &__add-modal {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    background: #4f4d4d;
+    padding: 100px 45px 100px 15px;
+    width: 200px;
+    height: 100%;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    transform: translateX(100%);
+    transition: all 0.2s;
+
+    &.active {
+      transform: translateX(0);
+    }
+  }
+
+  &__add-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  &__close {
+    background: #fff;
+    padding: 5px;
+    border-radius: 30px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.form {
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__buttons {
+    margin-left: 20px;
+    display: flex;
+    gap: 20px;
+  }
+
+  &__button {
+    font-weight: 500;
+    border: none;
+    line-height: 32px;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 20px;
+    width: 100%;
+  }
+}
