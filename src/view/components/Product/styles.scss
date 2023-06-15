@@ -1,0 +1,23 @@
+.product {
+  display: flex;
+  gap: 60px;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    align-self: center;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 30px;
+    gap: 15px;
+    font-size: 15px;
+    line-height: 20px;
+  }
+}
