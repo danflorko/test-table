@@ -12,11 +12,3 @@ export interface IProduct {
 };
 
 export type TProductOnlyString = Omit<IProduct, 'id' | 'price' | 'rating' | 'stock' | 'images'>
-
-export interface INewProduct {
-  title: string;
-  author: string;
-  publicationYear: string;
-  rating: string;
-}
-
