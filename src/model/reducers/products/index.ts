@@ -7,11 +7,8 @@ import { IProduct } from 'src/controller/types';
 
 const initialState = {
 	products: [] as IProduct[],
-};
-
-interface Redux {
-  getState: any;
-  dispatch: Dispatch<any>;
+  status: false,
+  message: '',
 };
 
 export const fetchData = createAsyncThunk('products/fetchData', async () => {
@@ -69,7 +66,11 @@ export const editProduct = createAsyncThunk(
 export const productsSlice = createSlice({
 	name: 'products',
 	initialState,
-	reducers: {},
+	reducers: {
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
+  },
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchData.fulfilled, (state, action) => {
@@ -77,11 +78,15 @@ export const productsSlice = createSlice({
 			})
 			.addCase(addProduct.fulfilled, (state, action) => {
 				state.products.push(action.payload);
+        state.status = true;
+        state.message = 'Added successfully'
 			})
 			.addCase(deleteProduct.fulfilled, (state, action) => {
 				state.products = state.products.filter(
 					(product) => product.id !== action.payload.id
 				);
+        state.status = true;
+        state.message = 'Deleted successfully'
 			})
 			.addCase(editProduct.fulfilled, (state, action) => {
 				const editedProduct = action.payload;
@@ -94,8 +99,11 @@ export const productsSlice = createSlice({
 						...editedProduct,
 					};
 				}
+        state.status = true;
+        state.message = 'Edited successfully'
 			});
 	},
 });
 
+export const { setStatus } = productsSlice.actions;
 export default productsSlice.reducer;
