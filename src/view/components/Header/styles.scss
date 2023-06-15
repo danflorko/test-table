@@ -1,11 +1,13 @@
 .header {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   display: flex;
   justify-content: space-between;
-  padding: 5px 70px;
-  background: #000;
-  opacity: 90%;
+  padding: 5px 8%;
+  background: #006C86;
+  background-image: linear-gradient(to right, #006C86 0%, #00C0BE 100%);
+  box-shadow: 0 4px 5px -2px lightgray;
   z-index: 2;
 
   &__left-side-container {
@@ -14,6 +16,11 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
+    transition: 0.7s ease-in-out;
+
+    &:hover>.header__image {
+      transform: rotate(360deg);
+    }
   }
 
   &__right-side-container {
@@ -30,7 +37,12 @@
     padding: 10px;
     background-color: #fff;
     border-radius: 40px;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
+    transition: 0.7s ease-in-out;
+
+    &:hover>.header__image {
+      transform: rotate(360deg);
+    }
   }
 }

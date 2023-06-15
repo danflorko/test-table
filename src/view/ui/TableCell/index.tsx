@@ -1,5 +1,8 @@
 import { memo } from 'react';
+import classNames from 'classnames';
 import type { FC, ReactNode } from 'react';
+
+import './styles.scss';
 
 interface TableCellProps {
 	children: ReactNode;
@@ -10,11 +13,8 @@ interface TableCellProps {
 const TableCell: FC<TableCellProps> = ({ children, onClick, className }) => {
 	return (
 		<td
-			className={className}
+			className={classNames(className, 'cell', { clickable: !!onClick })}
 			onClick={onClick}
-			style={{
-				cursor: onClick && 'pointer',
-			}}
 		>
 			{children}
 		</td>

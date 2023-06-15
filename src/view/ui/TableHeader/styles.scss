@@ -2,8 +2,8 @@
   &__img {
     cursor: pointer;
     vertical-align: baseline;
-    margin-left: 5px;
-    padding: 5px 0 0;
+    margin-left: 1px;
+    padding: 2px 2px;
     width: 16px;
     height: 16px;
   }
@@ -54,6 +54,6 @@
 
 .active {
   background-position-y: center;
-  background-color: #fff;
-  border-radius: 2px;
+  background-color: lightgray;
+  border-radius: 50%;
 }

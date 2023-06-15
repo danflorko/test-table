@@ -5,7 +5,11 @@ import type { FC } from 'react';
 import TableHeader from 'src/view/ui/TableHeader';
 import { ESortTypes } from 'src/controller/enums';
 import { sortByProperty } from 'src/controller/utils/helpers';
-import type { IMinMaxValuesOfProducts, IProduct, TProductOnlyString } from 'src/controller/types';
+import type {
+	IMinMaxValuesOfProducts,
+	IProduct,
+	TProductOnlyString,
+} from 'src/controller/types';
 
 import './styles.scss';
 import ProductRow from '../ProductRow';
@@ -28,11 +32,13 @@ interface ProductTableProps {
 
 const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 	const [sortType, setSortType] = useState<ESortTypes>(ESortTypes.DISABLE);
+	const [sortColumn, setSortColumn] = useState<keyof IProduct | null>(null);
 	const [sortedProducts, setSortedProducts] = useState<IProduct[]>(products);
 	const [filteredProducts, setFilteteredProducts] = useState<IProduct[] | null>(
 		null
 	);
-  const [minMaxValuesOfProducts, setMinMaxValuesOfProducts] = useState<IMinMaxValuesOfProducts | null>(null);
+	const [minMaxValuesOfProducts, setMinMaxValuesOfProducts] =
+		useState<IMinMaxValuesOfProducts | null>(null);
 
 	const handleMinMaxFiltersChange = useCallback(
 		(value: string, min: string = '0', max: string = '9999999') => {
@@ -54,31 +60,29 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 
 	const handlESortTypesChange = useCallback(
 		(value: keyof IProduct | string, sortBy: string) => {
-			const sort = value === 'Name' ? 'title' : value;
+			const sort = (value === 'Name' ? 'title' : value) as keyof IProduct;
+
 			setSortType(() => {
 				switch (sortBy) {
 					case ESortTypes.AZ:
-						setSortedProducts((prev) =>
-							sortByProperty(prev, sort as keyof IProduct, 'asc')
-						);
-
+						setSortColumn(sort);
+						setSortedProducts((prev) => sortByProperty(prev, sort, 'asc'));
 						return ESortTypes.AZ;
 
 					case ESortTypes.ZA:
-						setSortedProducts((prev) =>
-							sortByProperty(prev, sort as keyof IProduct, 'desc')
-						);
-
+						setSortColumn(sort);
+						setSortedProducts((prev) => sortByProperty(prev, sort, 'desc'));
 						return ESortTypes.ZA;
 
 					case ESortTypes.DISABLE:
 					default:
-						setSortedProducts(prev => prev.sort((x, y) => x.id - y.id));
+						setSortColumn(null);
+						setSortedProducts((prev) => prev.sort((x, y) => x.id - y.id));
 						return ESortTypes.DISABLE;
 				}
 			});
 		},
-		[products]
+		[]
 	);
 
 	const handleFiltersChange = useCallback(
@@ -96,47 +100,59 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 		[sortedProducts]
 	);
 
-  useEffect(() => {
-  const getMinMaxValues = async () => {
-    const filteredProducts = products.filter(product => product !== undefined);
+	useEffect(() => {
+		const getMinMaxValues = async () => {
+			const filteredProducts = products.filter(
+				(product) => product !== undefined
+			);
 
-    setMinMaxValuesOfProducts({
-      minPrice: Math.min(...filteredProducts.map(product => product.price)),
-      maxPrice: Math.max(...filteredProducts.map(product => product.price)),
-      minStock: Math.min(...filteredProducts.map(product => product.stock)),
-      maxStock: Math.max(...filteredProducts.map(product => product.stock)),
-      minRating: Math.min(...filteredProducts.map(product => product.rating)),
-      maxRating: Math.max(...filteredProducts.map(product => product.rating)),
-    });
-  };
+			setMinMaxValuesOfProducts({
+				minPrice: Math.min(...filteredProducts.map((product) => product.price)),
+				maxPrice: Math.max(...filteredProducts.map((product) => product.price)),
+				minStock: Math.min(...filteredProducts.map((product) => product.stock)),
+				maxStock: Math.max(...filteredProducts.map((product) => product.stock)),
+				minRating: Math.min(
+					...filteredProducts.map((product) => product.rating)
+				),
+				maxRating: Math.max(
+					...filteredProducts.map((product) => product.rating)
+				),
+			});
+		};
 
-  getMinMaxValues();
-}, []);
+		getMinMaxValues();
+	}, []);
 
-  console.log(minMaxValuesOfProducts);
+	console.log(minMaxValuesOfProducts);
 
 	return (
 		<table className="products-table">
 			<thead className="products-table__head">
 				<tr className="products-table__row">
-					{minMaxValuesOfProducts && productsKeys.map((productKey: string, index) => (
-						<th
-							key={index}
-							className={classNames('products-table__header', {
-								'products-table__header--medium': productKey === 'Description',
-								'products-table__header--small': productKey === 'Name',
-							})}
-						>
-							<TableHeader
-                minMaxValuesOfProducts = {minMaxValuesOfProducts}
-								currentSortType={sortType}
-								productKey={productKey}
-								onSortTypeChange={handlESortTypesChange}
-								onFiltersChange={handleFiltersChange}
-								onMinMaxChage={handleMinMaxFiltersChange}
-							/>
-						</th>
-					))}
+					{minMaxValuesOfProducts &&
+						productsKeys.map((productKey: string, index) => (
+							<th
+								key={`head-${index}`}
+								className={classNames('products-table__header', {
+									'products-table__header--medium':
+										productKey === 'Description',
+									'products-table__header--small': productKey === 'Name',
+								})}
+							>
+								<TableHeader
+									productKey={productKey}
+									isSorted={
+										sortColumn ===
+										(productKey === 'Name' ? 'title' : productKey)
+									}
+									minMaxValuesOfProducts={minMaxValuesOfProducts}
+									currentSortType={sortType}
+									onSortTypeChange={handlESortTypesChange}
+									onFiltersChange={handleFiltersChange}
+									onMinMaxChage={handleMinMaxFiltersChange}
+								/>
+							</th>
+						))}
 				</tr>
 			</thead>
 			<tbody className="products-table__body">

@@ -13,35 +13,20 @@
     border: none;
     border-radius: 10px;
     border-spacing: 2px;
+    box-shadow: 0 4px 5px -1px lightgray;
   }
 
   &__body {
     border-radius: 10px;
   }
 
-  &__row {
-    border-radius: 10px;
-    text-align: center;
-    border-spacing: 0;
-    background: #545353;
-
-    &:hover {
-      background: #8b8989;
-    }
-
-    &:last-child {
-      padding-bottom: 2px;
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-  }
-
   &__header {
     position: relative;
-    background: #786f6f;
-    padding: 0 5px;
+    background: white;
     border: 0.5px solid #fff;
     border-spacing: 1px;
+    color: #707070;
+    padding: 10px 5px;
 
     &--small {
       width: 10%;

@@ -6,6 +6,8 @@
   &__error-message {
     position: relative;
     top: -2px;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
     height: fit-content;
     line-height: 16px;
     font-size: 12px;
@@ -16,19 +18,19 @@
 
   &__text-field {
     width: 100%;
-    padding-left: 28px;
     padding-top: 15px;
-    padding-bottom: 16px;
+    padding-bottom: 15px;
     border: 1px solid #E0E0E0;
     background: #FAFAFA;
     border-radius: 5px;
     outline: none;
     color: #2A2A2A;
+    box-sizing: border-box;
     transition: 0.5s;
 
     &:focus {
       border: 1px solid #FAFAFA;
-      box-shadow: 0 0 7px #FAFAFA ;
+      box-shadow: 0 0 7px #FAFAFA;
     }
 
     &--error {
