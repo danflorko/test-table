@@ -1,0 +1,21 @@
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+
+  &__circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    border-top-color: rgb(58, 62, 70);
+    animation: spinner-rotate 1s linear infinite;
+  }
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}

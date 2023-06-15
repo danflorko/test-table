@@ -1,0 +1,15 @@
+.btn {
+  cursor: pointer;
+  transition: transform 250ms linear;
+  transform: perspective(100px) translateZ(0px);
+
+  &:hover {
+    transform: perspective(100px) translateZ(-5px);
+  }
+
+  &--light {
+    &:hover {
+      box-shadow: 0 0 10px #fff;
+    }
+  }
+}
