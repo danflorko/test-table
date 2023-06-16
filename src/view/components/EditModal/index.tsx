@@ -1,16 +1,17 @@
 import { useFormik } from 'formik';
-import { FC } from 'react';
-import { IProduct } from 'src/controller/types';
+import type { FC } from 'react';
+import type { IProduct } from 'src/controller/types';
+
+import InputText from 'src/view/ui/InputText';
+import Dropdown from 'src/view/ui/Dropdown';
 import { useAppDispatch } from 'src/controller/utils/hooks';
 import { editProduct } from 'src/model/reducers/products';
-import InputText from 'src/view/ui/InputText';
-import { validationSchema } from 'src/controller/utils/helpers'
-import CategoryDropdown from 'src/view/ui/Dropdown';
+import { validationSchema } from 'src/controller/utils/helpers';
 
 interface EditModalProps {
 	handleClose: () => void;
 	product: IProduct;
-};
+}
 
 const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 	const { id, title, description, price, thumbnail, rating, stock, category } =
@@ -30,14 +31,29 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 		validationSchema,
 		onSubmit: (values) => {
 			dispatch(editProduct({ id, values }));
-      localStorage.removeItem('Product');
+			localStorage.removeItem('Product');
 		},
 	});
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>, name: string) => {
-    formik.handleChange(e);
-    localStorage.setItem('Product', JSON.stringify({ ...formik.values, id: product.id, [name]: name === ('price' || 'stock' || 'rating') ? +e.target.value : e.target.value}));
-  }
+	const handleOnChange = (
+		e:
+			| React.ChangeEvent<HTMLInputElement>
+			| React.ChangeEvent<HTMLSelectElement>,
+		name: string
+	) => {
+		formik.handleChange(e);
+		localStorage.setItem(
+			'Product',
+			JSON.stringify({
+				...formik.values,
+				id: product.id,
+				[name]:
+					name === ('price' || 'stock' || 'rating')
+						? +e.target.value
+						: e.target.value,
+			})
+		);
+	};
 
 	return (
 		<>
@@ -94,14 +110,14 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 						onBlur={formik.handleBlur}
 						error={formik.touched.stock && formik.errors.stock}
 					/>
-					<CategoryDropdown
-            name='category'
-            label='Category'
-            value={formik.values.category}
-            onChange={handleOnChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.category && formik.errors.category}
-          />
+					<Dropdown
+						name="category"
+						label="Category"
+						value={formik.values.category}
+						onChange={handleOnChange}
+						onBlur={formik.handleBlur}
+						error={formik.touched.category && formik.errors.category}
+					/>
 				</div>
 				<div className="form__buttons">
 					<button type="submit" className="form__button btn">

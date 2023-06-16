@@ -1,18 +1,23 @@
-import { FC } from 'react';
-import './styles.scss';
+import { useCallback } from 'react';
 import classNames from 'classnames';
+
+import { useAppSelector } from 'src/controller/utils/hooks';
+import type { ChangeEvent, FC } from 'react';
+import type { IProduct } from 'src/controller/types';
+
+import './styles.scss';
 
 interface DropdownProps {
 	name: string;
 	label: string;
-	onBlur?: (e: React.FocusEvent<HTMLSelectElement, Element>) => void;
 	value: string;
-	onChange: (e: React.ChangeEvent<HTMLSelectElement>, name: string) => void;
 	error?: string | false;
 	small?: boolean;
+	onBlur?: (e: React.FocusEvent<HTMLSelectElement, Element>) => void;
+	onChange: (e: React.ChangeEvent<HTMLSelectElement>, name: string) => void;
 }
 
-const CategoryDropdown: FC<DropdownProps> = ({
+const Dropdown: FC<DropdownProps> = ({
 	name,
 	onBlur,
 	error,
@@ -20,34 +25,51 @@ const CategoryDropdown: FC<DropdownProps> = ({
 	onChange,
 	small = false,
 }) => {
+	const categories = useAppSelector((store) =>
+		store.products.products.reduce(
+			(uniques, { category }) =>
+				uniques.includes(category) ? uniques : [...uniques, category],
+			[] as IProduct['category'][]
+		)
+	);
+
+	const handleChange = useCallback(
+		(e: ChangeEvent<HTMLSelectElement>) => {
+			onChange(e, name);
+		},
+		[onChange, name]
+	);
+
 	return (
 		<div
-			className={classNames(
-				'category-dropdown',
-				{
-          'table-header__filters category-dropdown--small': small
-        }
-			)}
+			className={classNames('category-dropdown', {
+				'table-header__filters category-dropdown--small': small,
+			})}
 		>
 			<select
-				name={name}
-				value={value}
-				onChange={(e) => onChange(e, name)}
-				onBlur={onBlur}
+				{...{ name, value, onBlur }}
+				onChange={handleChange}
 				className={small ? 'small' : 'category-dropdown__select'}
 			>
-				<option value="" disabled>{`Select a ${name}:`}</option>
-				{small && <option value="">All</option>}
-				<option value="smartphones">Smartphones</option>
-				<option value="laptops">Laptops</option>
-				<option value="fragrances">Fragrances</option>
-				<option value="skincare">Skincare</option>
-				<option value="groceries">Groceries</option>
-				<option value="home-decoration">Home Decoration</option>
+				<option
+					key={'all-small'}
+					value=""
+					disabled
+				>{`Select a ${name}:`}</option>
+				{small && (
+					<option key={'all'} value="">
+						All
+					</option>
+				)}
+				{categories.map((category) => (
+					<option key={`product-${category}`} value={category}>
+						{category}
+					</option>
+				))}
 			</select>
 			{error && <p className="category-dropdown__error-message">{error}</p>}
 		</div>
 	);
 };
 
-export default CategoryDropdown;
+export default Dropdown;
