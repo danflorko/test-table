@@ -23,10 +23,10 @@ const CategoryDropdown: FC<DropdownProps> = ({
 	return (
 		<div
 			className={classNames(
-				'table-header__filters',
-				small
-					? 'category-dropdown category-dropdown--small'
-					: 'category-dropdown'
+				'category-dropdown',
+				{
+          'table-header__filters category-dropdown--small': small
+        }
 			)}
 		>
 			<select

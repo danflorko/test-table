@@ -23,6 +23,7 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 	const [sortType, setSortType] = useState<ESortTypes>(ESortTypes.DISABLE);
 	const [sortColumn, setSortColumn] = useState<keyof IProduct | null>(null);
 	const [sortedProducts, setSortedProducts] = useState<IProduct[]>(products);
+  const [filters, setFilters] = useState<Partial<IProduct> | null>(null);
 	const [marginProductsValues, setMarginProductsValues] =
 		useState<IMarginProductsValues>({} as IMarginProductsValues);
 
@@ -101,13 +102,18 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 				fieldName
 			);
 
+      setFilters(prev => ({
+        ...prev,
+        [fieldName]: value,
+      }))
+
 			setSortedProducts(
-				sortedProducts.filter((product) =>
+        products.filter((product) =>
 					product[correctTitle]
 						.toLocaleLowerCase()
 						.includes(value.toLocaleLowerCase())
 				)
-			);
+      );
 		},
 		[sortedProducts]
 	);

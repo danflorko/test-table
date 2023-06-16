@@ -16,12 +16,6 @@
     }
   }
 
-  // & input {
-  //   outline: none;
-  //   border-radius: 5px;
-  //   border: 1px solid #E0E0E0;
-  // }
-
   &__img {
     cursor: pointer;
     vertical-align: baseline;
@@ -48,7 +42,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     padding: 10px;
     z-index: 1;
     border-top: 1px solid #fff;
@@ -66,10 +60,10 @@
     margin: 0;
   }
 
+  &__active {
+    background-position-y: center;
+    background-color: lightgray;
+    border-radius: 50%;
+  }
 }
 
-.active {
-  background-position-y: center;
-  background-color: lightgray;
-  border-radius: 50%;
-}

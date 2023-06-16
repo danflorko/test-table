@@ -124,7 +124,7 @@ const TableHeaderCell: FC<TableHeaderCellProps> = ({
 					<div className={'table-header__container--control--sort'}>
 						<img
 							className={classNames('table-header__img', 'btn', {
-								active: currentSortType === ESortTypes.ZA && isSorted,
+								'table-header__active': currentSortType === ESortTypes.ZA && isSorted,
 							})}
 							src="images/buttons/upArrow.svg"
 							alt={'DESC'}
@@ -132,7 +132,7 @@ const TableHeaderCell: FC<TableHeaderCellProps> = ({
 						/>
 						<img
 							className={classNames('table-header__img', 'btn', {
-								active: currentSortType === ESortTypes.AZ && isSorted,
+								'table-header__active': currentSortType === ESortTypes.AZ && isSorted,
 							})}
 							src="images/buttons/downArrow.svg"
 							alt={'ASC'}
@@ -165,7 +165,7 @@ const TableHeaderCell: FC<TableHeaderCellProps> = ({
 						) : (
 							<div className="table-header__filters">
 								<InputNumber
-									value={min ?? totalMin}
+									value={min ?? + totalMin}
 									min={totalMin}
 									max={totalMax}
 									step={numericsSteps[productKey] || 1}

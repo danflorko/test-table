@@ -21,7 +21,6 @@ const InputNumber: FC<InputNumberProps> = ({
 }) => {
 	return (
 		<div>
-			{children}
 			<input
 				{...{
 					value,
@@ -33,6 +32,7 @@ const InputNumber: FC<InputNumberProps> = ({
 				}}
 				type={'number'}
 			/>
+      {children}
 		</div>
 	);
 };

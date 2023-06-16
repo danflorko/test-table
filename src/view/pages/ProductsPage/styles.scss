@@ -20,8 +20,8 @@
 
   &__container-add {
     position: fixed;
-    bottom: 15px;
-    right: 15px;
+    bottom: 25px;
+    right: 25px;
   }
 
   &__add {
@@ -51,7 +51,7 @@
     flex-direction: column;
     gap: 40px;
     background: white;
-    padding: 100px 45px 100px 15px;
+    padding: 9rem 45px 100px 15px;
     width: 200px;
     z-index: 1;
     right: 0;
@@ -88,7 +88,6 @@
   }
 
   &__buttons {
-    margin-left: 20px;
     display: flex;
     gap: 20px;
   }
