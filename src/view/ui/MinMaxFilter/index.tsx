@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import type { ChangeEvent, FC, ReactNode } from 'react';
 
 import InputNumber from '../InputNumber';
-import { EProductsKeys } from 'src/controller/enums';
+import { EProductsKeys } from 'src/model/enums';
 
 interface MinMaxFilterProps {
 	step: number;

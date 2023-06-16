@@ -15,7 +15,7 @@ const App: FC = () => {
 			<Routes>
 				<Route element={<RootLayout />}>
 					<Route
-						path="/products"
+						path='/products'
 						element={
 							<Suspense fallback={<Spinner />}>
 								<ProductsPage />
@@ -23,14 +23,14 @@ const App: FC = () => {
 						}
 					/>
 					<Route
-						path="/products/:id"
+						path='/products/:id'
 						element={
 							<Suspense fallback={<Spinner />}>
 								<Product />
 							</Suspense>
 						}
 					/>
-					<Route path="/" element={<Navigate to="/products" replace />} />
+					<Route path='/' element={<Navigate to='/products' replace />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

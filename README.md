@@ -61,7 +61,8 @@ The client will be accessible at <http://localhost:3000>.
         export const parseProps = <T extends object, C = PropType<T>>(
             items: T[],
             props: (keyof T)[]
-        ) => items.reduce(
+        ) =>
+            items.reduce(
                 (acc: TransposedValues<T, C>, item: T) => ({
                     ...acc,
                     ...props.reduce(
@@ -86,25 +87,36 @@ The client will be accessible at <http://localhost:3000>.
         export type TransposedValues<T extends object, C = PropType<T>> = {
             [key in keyof T]?: C[];
         };
+
+        export type NumericKeys<T> = {
+            [K in keyof T]: T[K] extends number ? K : never;
+        }[keyof T];
     ```
 
   - [Usage example](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/view/components/ProductsTable/index.tsx#L53):
 
     ```typescript
         useEffect(() => {
-            const {
-                price = [],
-                stock = [],
-                rating = [],
-            } = parseProps<IProduct, number>(products, ['price', 'stock', 'rating']);
+            const { prices, stocks, ratings } = products.reduce(
+                (acc, product) => ({
+                    prices: [...acc.prices, product.price],
+                    stocks: [...acc.stocks, product.stock],
+                    ratings: [...acc.ratings, product.rating],
+                }),
+                {
+                    prices: [] as number[],
+                    stocks: [] as number[],
+                    ratings: [] as number[],
+                }
+            );
 
             setMarginProductsValues({
-                minPrice: Math.min(...price),
-                maxPrice: Math.max(...price),
-                minStock: Math.min(...stock),
-                maxStock: Math.max(...stock),
-                minRating: Math.min(...rating),
-                maxRating: Math.max(...rating),
+                minPrice: Math.min(...prices),
+                maxPrice: Math.max(...prices),
+                minStock: Math.min(...stocks),
+                maxStock: Math.max(...stocks),
+                minRating: Math.min(...ratings),
+                maxRating: Math.max(...ratings),
             });
         }, [products]);
     ```
@@ -125,7 +137,10 @@ The client will be accessible at <http://localhost:3000>.
                 .typeError('Must be a number')
                 .required('Price is required'),
             thumbnail: Yup.string().matches(
-                /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                new RegExp(
+                    '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$',
+                    'i'
+                ),
                 'Enter valid URL for photo!'
             ),
             rating: Yup.number()
@@ -145,20 +160,21 @@ The client will be accessible at <http://localhost:3000>.
   - [Usage example](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/view/components/AddModal/index.tsx#L32):
 
     ```typescript
-        const formik = useFormik({
+        const formik = useFormik<Partial<IProduct>>({
             initialValues: savedLocalStorageValues,
             validationSchema,
             onSubmit: (values, { resetForm }) => {
                 dispatch(
                     addProduct({
                         ...values,
-                        price: +values.price,
-                        rating: +values.rating,
-                        stock: +values.stock,
+                        id: Math.max(...products.map((product) => product.id)) + 1,
+                        price: +values.price!,
+                        rating: +values.rating!,
+                        stock: +values.stock!,
                     })
                 );
                 resetForm();
-                localStorage.removeItem('ProductAdd');
+                handleClose();
             },
         });
     ```

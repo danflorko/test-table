@@ -1,10 +1,14 @@
-import { EProductsKeys } from '../enums';
+import { EProductsKeys } from '../../model/enums';
 
 export type PropType<T extends object> = T[keyof T];
 
 export type TransposedValues<T extends object, C = PropType<T>> = {
 	[key in keyof T]?: C[];
 };
+
+export type NumericKeys<T> = {
+	[K in keyof T]: T[K] extends number ? K : never;
+}[keyof T];
 
 export interface IProduct {
 	id: number;
@@ -19,21 +23,17 @@ export interface IProduct {
 	images: string[];
 }
 
+export interface INumberRange {
+	min: number;
+	max: number;
+}
+
 export interface IProductFilters {
-  title: string;
+	title: string;
 	description: string;
-	price: {
-    min: number,
-    max: number
-  };
-  rating: {
-    min: number,
-    max: number
-  };
-	stock: {
-    min: number,
-    max: number
-  };
+	price: INumberRange;
+	rating: INumberRange;
+	stock: INumberRange;
 	category: string;
 }
 
@@ -57,4 +57,8 @@ export type INumericSteps = {
 
 export type ICastedKeys = {
 	[key in EProductsKeys]?: keyof IProduct;
+};
+
+export type ICastedValues = {
+	[key in keyof Partial<IProduct>]: EProductsKeys;
 };

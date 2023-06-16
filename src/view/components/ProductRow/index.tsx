@@ -53,7 +53,7 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
 	}, [product.id]);
 
 	return (
-		<tr key={product.id} className="products-table__row">
+		<tr key={product.id} className='products-table__row'>
 			<TableCell
 				className={
 					'products-table__row__data products-table__row__data--monochrome'
@@ -67,9 +67,9 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
 				onClick={handleProductOpen}
 			>
 				<img
-					className="products-table__row__img"
+					className='products-table__row__img'
 					src={product.thumbnail}
-					title="Hold on to see full size"
+					title='Hold on to see full size'
 					alt={'Product'}
 				/>
 			</TableCell>
@@ -102,17 +102,17 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
 			<TableCell className={'products-table__row__actions'}>
 				<div className={'products-table__row__actions--container'}>
 					<img
-						className="products-table__row__actions--space btn"
-						src="images/buttons/edit.svg"
-						alt="Edit Button"
-						title="Edit"
+						className='products-table__row__actions--space btn'
+						src='images/buttons/edit.svg'
+						alt='Edit Button'
+						title='Edit'
 						onClick={handleOnEdit}
 					/>
 					<img
-						className="products-table__row__actions--space btn"
-						src="images/buttons/delete.svg"
-						alt="Delete Button"
-						title="Delete"
+						className='products-table__row__actions--space btn'
+						src='images/buttons/delete.svg'
+						alt='Delete Button'
+						title='Delete'
 						onClick={handleDelete}
 					/>
 				</div>

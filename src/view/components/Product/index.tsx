@@ -1,9 +1,10 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
-import type { FC } from 'react';
+import { useEffect, useState, lazy, Suspense, memo, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import type { FC } from 'react';
+
+import Spinner from 'src/view/ui/Spinner';
 import { getProduct } from 'src/controller/api';
 import { IProduct } from 'src/controller/types';
-import Spinner from 'src/view/ui/Spinner';
 
 import './styles.scss';
 
@@ -14,13 +15,15 @@ const Product: FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
+	const handleClick = useCallback(() => navigate('/products'), [navigate]);
+
 	useEffect(() => {
 		const fetchProduct = async () => {
 			try {
 				const product = await getProduct(location.pathname);
 				setProduct(product);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 
@@ -28,18 +31,15 @@ const Product: FC = () => {
 	}, [location]);
 
 	return (
-		<div className="product">
+		<div className='product'>
 			<div>
-				<button
-					className="product__button btn"
-					onClick={() => navigate('/products')}
-				>
+				<button className='product__button btn' onClick={handleClick}>
 					Back
 				</button>
 			</div>
 			{!!product && (
 				<Suspense fallback={<Spinner />}>
-					<div className="product__container">
+					<div className='product__container'>
 						<ProductCard product={product} />
 					</div>
 				</Suspense>
@@ -48,4 +48,4 @@ const Product: FC = () => {
 	);
 };
 
-export default Product;
+export default memo(Product);

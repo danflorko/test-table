@@ -1,14 +1,11 @@
-import { Dispatch } from 'redux';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 import { instance } from 'src/controller/utils/axios';
-
-import { IProduct } from 'src/controller/types';
+import type { IProduct } from 'src/controller/types';
 
 const initialState = {
 	products: [] as IProduct[],
-  status: false,
-  message: '',
+	status: false,
+	message: '',
 };
 
 export const fetchData = createAsyncThunk('products/fetchData', async () => {
@@ -22,42 +19,42 @@ export const fetchData = createAsyncThunk('products/fetchData', async () => {
 });
 
 export const addProduct = createAsyncThunk(
-  'products/addProduct',
-  async (data: Partial<IProduct>) => {
-    try {
-      const response = await instance.post('/products/add', {
-        ...data,
-      })
+	'products/addProduct',
+	async (data: Partial<IProduct>) => {
+		try {
+			const response = await instance.post('/products/add', {
+				...data,
+			});
 
-      return response.data
-    } catch (e) {
-      console.log(e);
-    }
-  }
-)
+			return response.data;
+		} catch (e) {
+			console.log(e);
+		}
+	}
+);
 
 export const deleteProduct = createAsyncThunk(
-  'products/deleteProduct',
-  async ({ id }: { id: number }) => {
-    try {
-      if ( id > 100) {
-        return { id };
-      }
-      const response = await instance.delete(`/products/${id}`);
-      return response.data
-    } catch (e) {
-      console.log(e);
-    }
-  }
+	'products/deleteProduct',
+	async ({ id }: { id: number }) => {
+		try {
+			if (id > 100) {
+				return { id };
+			}
+			const response = await instance.delete(`/products/${id}`);
+			return response.data;
+		} catch (e) {
+			console.log(e);
+		}
+	}
 );
 
 export const editProduct = createAsyncThunk(
-  'products/editProduct',
-  async ({ id, values }: { id: number, values: Partial<IProduct> }) => {
-    try {
-      const response = await instance.patch(`/products/${id}`, {
-        ...values,
-      })
+	'products/editProduct',
+	async ({ id, values }: { id: number; values: Partial<IProduct> }) => {
+		try {
+			const response = await instance.patch(`/products/${id}`, {
+				...values,
+			});
 
 			return response.data;
 		} catch (e) {
@@ -70,10 +67,10 @@ export const productsSlice = createSlice({
 	name: 'products',
 	initialState,
 	reducers: {
-    setStatus: (state, action) => {
-      state.status = action.payload;
-    },
-  },
+		setStatus: (state, action) => {
+			state.status = action.payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchData.fulfilled, (state, action) => {
@@ -81,15 +78,15 @@ export const productsSlice = createSlice({
 			})
 			.addCase(addProduct.fulfilled, (state, action) => {
 				state.products.push(action.payload);
-        state.status = true;
-        state.message = 'Added successfully'
+				state.status = true;
+				state.message = 'Added successfully';
 			})
 			.addCase(deleteProduct.fulfilled, (state, action) => {
 				state.products = state.products.filter(
 					(product) => product.id !== action.payload.id
 				);
-        state.status = true;
-        state.message = 'Deleted successfully'
+				state.status = true;
+				state.message = 'Deleted successfully';
 			})
 			.addCase(editProduct.fulfilled, (state, action) => {
 				const editedProduct = action.payload;
@@ -102,8 +99,8 @@ export const productsSlice = createSlice({
 						...editedProduct,
 					};
 				}
-        state.status = true;
-        state.message = 'Edited successfully'
+				state.status = true;
+				state.message = 'Edited successfully';
 			});
 	},
 });

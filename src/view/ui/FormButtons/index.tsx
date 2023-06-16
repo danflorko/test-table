@@ -9,10 +9,10 @@ interface FormButtonsProps {
 
 const FormButtons: FC<FormButtonsProps> = ({ label, onCancel, className }) => (
 	<div className={className}>
-		<button type="submit" className="form__button btn">
+		<button type='submit' className='form__button btn'>
 			{label}
 		</button>
-		<button type="button" className="form__button btn" onClick={onCancel}>
+		<button type='button' className='form__button btn' onClick={onCancel}>
 			Cancel
 		</button>
 	</div>

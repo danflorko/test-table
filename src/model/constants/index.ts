@@ -1,5 +1,9 @@
-import { EProductsKeys } from 'src/controller/enums';
-import type { INumericSteps, ICastedKeys } from 'src/controller/types';
+import { EProductsKeys } from 'src/model/enums';
+import type {
+	INumericSteps,
+	ICastedKeys,
+	ICastedValues,
+} from 'src/controller/types';
 
 export const numericsSteps: INumericSteps = {
 	Price: 1,
@@ -16,4 +20,15 @@ export const castedKeys: ICastedKeys = {
 	[EProductsKeys.RATING]: 'rating',
 	[EProductsKeys.STOCK]: 'stock',
 	[EProductsKeys.CATEGORY]: 'category',
+};
+
+export const castedValues: ICastedValues = {
+	id: EProductsKeys.ID,
+	title: EProductsKeys.NAME,
+	description: EProductsKeys.DESCRIPTION,
+	price: EProductsKeys.PRICE,
+	thumbnail: EProductsKeys.PHOTO,
+	rating: EProductsKeys.RATING,
+	stock: EProductsKeys.STOCK,
+	category: EProductsKeys.CATEGORY,
 };

@@ -59,7 +59,7 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 
 	return (
 		<>
-			<form className="products__add-form" onSubmit={formik.handleSubmit}>
+			<form className='products__add-form' onSubmit={formik.handleSubmit}>
 				<ProductForm
 					formik={formik}
 					skippedValues={['id', 'category']}
@@ -67,8 +67,8 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 					onChange={handleOnChange}
 				>
 					<Dropdown
-						name="category"
-						label="Category"
+						name='category'
+						label='Category'
 						value={formik.values.category ?? ''}
 						onChange={handleOnChange}
 						onBlur={formik.handleBlur}

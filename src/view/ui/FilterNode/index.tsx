@@ -5,7 +5,7 @@ import type { TProductOnlyString } from 'src/controller/types';
 import Dropdown from '../Dropdown';
 import MinMaxFilter from 'src/view/ui/MinMaxFilter';
 import { numericsSteps } from 'src/model/constants';
-import { EProductsKeys } from 'src/controller/enums';
+import { EProductsKeys } from 'src/model/enums';
 
 interface FilterNodeProps {
 	productKey: EProductsKeys;
@@ -28,7 +28,7 @@ const FilterNode: FC<FilterNodeProps> = ({
 
 	const renderMinMaxInput = useCallback(
 		(label: string | ReactNode) => (
-			<h1 className="table-header__title">{label}</h1>
+			<h1 className='table-header__title'>{label}</h1>
 		),
 		[]
 	);
@@ -62,7 +62,7 @@ const FilterNode: FC<FilterNodeProps> = ({
 					<input
 						type={'text'}
 						onChange={handleSearchFilter}
-						className="table-header__input--large"
+						className='table-header__input--large'
 					/>
 				</div>
 			);

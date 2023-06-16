@@ -6,6 +6,7 @@
 
   &__table {
     border: 1px solid #E8E8E8;
+    border-radius: 10px;
   }
 
   &__search {
@@ -46,14 +47,16 @@
   &__add-modal {
     position: fixed;
     overflow-y: auto;
+    z-index: 10;
     display: flex;
-    border: 2px solid #00C0BE;
+    border-left: 5px solid #00C0BE;
+    box-sizing: border-box;
+    height: 100vh;
     flex-direction: column;
     gap: 40px;
     background: white;
     padding: 9rem 45px 100px 15px;
-    width: 200px;
-    z-index: 1;
+    width: 20%;
     right: 0;
     top: 0;
     transform: translateX(100%);
@@ -61,6 +64,7 @@
 
     &.active {
       transform: translateX(0);
+      box-shadow: 0px 62px 5px 1px gray;
     }
   }
 

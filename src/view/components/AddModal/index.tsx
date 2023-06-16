@@ -69,7 +69,7 @@ const AddModal: FC<AddModalProps> = ({ isOpen, handleClose }) => {
 		<div
 			className={isOpen ? 'products__add-modal active' : 'products__add-modal'}
 		>
-			<form className="products__add-form" onSubmit={formik.handleSubmit}>
+			<form className='products__add-form' onSubmit={formik.handleSubmit}>
 				<ProductForm
 					formik={formik}
 					skippedValues={['id']}

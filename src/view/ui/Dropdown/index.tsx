@@ -53,11 +53,11 @@ const Dropdown: FC<DropdownProps> = ({
 			>
 				<option
 					key={'all-small'}
-					value=""
+					value=''
 					disabled
 				>{`Select a ${name}:`}</option>
 				{small && (
-					<option key={'all'} value="">
+					<option key={'all'} value=''>
 						All
 					</option>
 				)}
@@ -67,7 +67,7 @@ const Dropdown: FC<DropdownProps> = ({
 					</option>
 				))}
 			</select>
-			{error && <p className="category-dropdown__error-message">{error}</p>}
+			{error && <p className='category-dropdown__error-message'>{error}</p>}
 		</div>
 	);
 };

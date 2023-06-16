@@ -1,13 +1,16 @@
-import type { FC } from 'react';
+import { useCallback } from 'react';
+import classNames from 'classnames';
+import type { FC, ChangeEvent } from 'react';
+
 import './styles.scss';
 
 interface InputTextProps {
 	label: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>, name: string) => void;
-	onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
+	name?: string;
 	value?: string | number;
 	error?: string | false;
-	name?: string;
+	onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>, name: string) => void;
 }
 
 const InputText: FC<InputTextProps> = ({
@@ -16,8 +19,15 @@ const InputText: FC<InputTextProps> = ({
 	onBlur,
 	value,
 	error,
-	name,
+	name = '',
 }) => {
+	const handleChange = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			onChange(e, name);
+		},
+		[onChange, name]
+	);
+
 	return (
 		<div className='input-box'>
 			<input
@@ -25,12 +35,20 @@ const InputText: FC<InputTextProps> = ({
 				name={name}
 				value={value}
 				placeholder={error || ''}
-				className={error ? 'input-box__text-field input-box__text-field--error' : 'input-box__text-field'}
-				onChange={(e) => onChange(e, name as string)}
+				className={classNames('input-box__text-field', {
+					'input-box__text-field--error': error,
+				})}
+				onChange={handleChange}
 				onBlur={onBlur}
 			/>
-      {error && <p className='input-box__error-message'>{error}</p>}
-			<span className={error ? 'input-box__helper-text error' : 'input-box__helper-text'}>{label}</span>
+			{!!error && <p className='input-box__error-message'>{error}</p>}
+			<span
+				className={classNames('input-box__helper-text', {
+					error,
+				})}
+			>
+				{label}
+			</span>
 		</div>
 	);
 };
