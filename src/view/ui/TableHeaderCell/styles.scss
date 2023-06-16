@@ -5,6 +5,7 @@
     align-items: center;
 
     &--control {
+      position: relative;
       display: flex;
       justify-content: center;
       width: 100%;
@@ -14,6 +15,20 @@
         flex-direction: row;
       }
     }
+  }
+
+  &__clear-filters {
+    position: relative;
+    display: flex;
+    top: 16px;
+    right: 5px;
+    padding: 0 15px;
+    cursor: pointer;
+    color: #fff;
+    border: 2px solid white;
+    border-radius: 10px;
+    background: #006C86;
+    background-image: linear-gradient(to right, #006C86 0%, #00C0BE 100%);
   }
 
   &__img {
@@ -66,4 +81,3 @@
     border-radius: 50%;
   }
 }
-

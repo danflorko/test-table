@@ -46,8 +46,8 @@
   &__add-modal {
     position: fixed;
     overflow-y: auto;
-    max-height: calc(100vh - 210px);
     display: flex;
+    border: 2px solid #00C0BE;
     flex-direction: column;
     gap: 40px;
     background: white;

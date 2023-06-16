@@ -5,9 +5,9 @@ import ProductRow from '../ProductRow';
 import TableHeaderCell from 'src/view/ui/TableHeaderCell';
 import { castedKeys } from 'src/model/constants';
 import {
-	castProperty,
-	parseProps,
-	sortByProperty,
+  castProperty,
+  parseProps,
+  sortByProperty,
 } from 'src/controller/utils/helpers';
 import { EProductsKeys, ESortTypes } from 'src/controller/enums';
 
@@ -25,7 +25,9 @@ interface ProductTableProps {
   products: IProduct[];
 };
 
-const ProductsTable: FC<ProductTableProps> = ({ products }) => {
+const ProductsTable: FC<ProductTableProps> = ({
+  products,
+}) => {
   const [sortType, setSortType] = useState<ESortTypes>(ESortTypes.DISABLE);
   const [sortColumn, setSortColumn] = useState<keyof IProduct | null>(null);
   const [sortedProducts, setSortedProducts] = useState<IProduct[]>(products);
@@ -33,9 +35,9 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
   const [marginProductsValues, setMarginProductsValues] =
     useState<IMarginProductsValues>({} as IMarginProductsValues);
 
-	useEffect(() => {
-		setSortedProducts(products);
-	}, [products]);
+  useEffect(() => {
+    setSortedProducts(products);
+  }, [products]);
 
   const handleMinMaxFiltersChange = useCallback(
     (key: string, min: number = 0, max: number = 99999) => {
@@ -182,6 +184,7 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
                     onSortTypeChange={handlESortTypesChange}
                     onFiltersChange={handleFiltersChange}
                     onMinMaxChage={handleMinMaxFiltersChange}
+                    setFilters={setFilters}
                   />
                 </th>
               )

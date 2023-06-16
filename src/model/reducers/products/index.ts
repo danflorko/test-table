@@ -40,6 +40,9 @@ export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async ({ id }: { id: number }) => {
     try {
+      if ( id > 100) {
+        return { id };
+      }
       const response = await instance.delete(`/products/${id}`);
       return response.data
     } catch (e) {

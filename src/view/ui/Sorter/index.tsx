@@ -28,7 +28,7 @@ const Sorter: FC<SorterProps> = ({
 		<div className={className}>
 			<img
 				className={classNames('table-header__img', 'btn', {
-					active: sortType === ESortTypes.ZA && isActive,
+					'table-header__active': sortType === ESortTypes.ZA && isActive,
 				})}
 				src="images/buttons/upArrow.svg"
 				alt={'DESC'}
@@ -36,7 +36,7 @@ const Sorter: FC<SorterProps> = ({
 			/>
 			<img
 				className={classNames('table-header__img', 'btn', {
-					active: sortType === ESortTypes.AZ && isActive,
+					'table-header__active': sortType === ESortTypes.AZ && isActive,
 				})}
 				src="images/buttons/downArrow.svg"
 				alt={'ASC'}

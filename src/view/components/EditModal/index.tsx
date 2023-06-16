@@ -57,9 +57,6 @@ const EditModal: FC<EditModalProps> = ({ product, handleClose }) => {
 
 	return (
 		<>
-			<div className="products__close btn" onClick={handleClose}>
-				<img src="images/buttons/close.svg" />
-			</div>
 			<form className="products__add-form" onSubmit={formik.handleSubmit}>
 				<div className="form__fields">
 					<InputText

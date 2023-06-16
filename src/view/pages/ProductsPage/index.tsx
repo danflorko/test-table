@@ -70,7 +70,9 @@ const ProductsPage: FC = () => {
 					<InputText label={'Search'} onChange={handleSearchOnChange} />
 				</div>
 				<div className="products__table">
-					<ProductsTable products={filteredProducts} />
+					<ProductsTable
+            products={filteredProducts}
+          />
 				</div>
 				<div className="products__container-add">
 					<button
