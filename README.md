@@ -1,46 +1,205 @@
-# Getting Started with Create React App
+# Table-based e-shop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and [TypeScript](https://github.com/microsoft/TypeScript).
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+To get started with this project, you need to have the following prerequisites installed on your machine:
 
-### `npm start`
+- `npm` or `yarn`
+- `Node.JS`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting Started
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Follow these steps to set up and run the project on your local machine:
 
-### `npm test`
+1. Open the project directory in your cmd.
+2. Install all necessary dependencies:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm i
+# or
+yarn
+```
 
-### `npm run build`
+3. Start the application:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm start
+# or
+yarn start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Access the application:
+Server: The client will be accessible at <http://localhost:3000>.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Notable Things
 
-### `npm run eject`
+- :mortar_board: **decomposition** of components and project structure
+- :memo: `memoization`, `lazy-loading`, and `<Suspense></Suspense>` component usage
+- :computer: **react-router** `<Outline />` component usage
+- <details>
+    <summary><b>&#10071;&#10071; Generic function for parsing props from an object&#10071;&#10071;</b></summary>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  - [Function](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/controller/utils/helpers/index.ts#L16):
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```typescript
+        export const parseProps = <T extends object, C = PropType<T>>(
+            items: T[],
+            props: (keyof T)[]
+        ) => items.reduce(
+                (acc: TransposedValues<T, C>, item: T) => ({
+                    ...acc,
+                    ...props.reduce(
+                        (props, prop) => ({
+                            ...props,
+                            [prop]: [...(props[prop] as C[]), item[prop]],
+                        }),
+                        acc
+                    ),
+                }),
+                Object.fromEntries(
+                    props.map((prop) => [prop, [] as C[]])
+                ) as TransposedValues<T, C>
+            );
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  - [Additional types](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/controller/types/index.ts#L3):
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+        ```typescript
+        export type PropType<T extends object> = T[keyof T];
 
-## Learn More
+        export type TransposedValues<T extends object, C = PropType<T>> = {
+            [key in keyof T]?: C[];
+        };
+        ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  - [Usage example](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/view/components/ProductsTable/index.tsx#L53):
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+        ```typescript
+            useEffect(() => {
+                const {
+                    price = [],
+                    stock = [],
+                    rating = [],
+                } = parseProps<IProduct, number>(products, ['price', 'stock', 'rating']);
+
+                setMarginProductsValues({
+                    minPrice: Math.min(...price),
+                    maxPrice: Math.max(...price),
+                    minStock: Math.min(...stock),
+                    maxStock: Math.max(...stock),
+                    minRating: Math.min(...rating),
+                    maxRating: Math.max(...rating),
+                });
+            }, [products]);
+        ```
+
+</details>
+
+- <details>
+    <summary><b>Yup-validation builder</b></summary>
+
+  - [Function](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/controller/utils/helpers/index.ts#L55):
+
+    ```typescript
+    export const validationSchema = Yup.object().shape({
+        title: Yup.string().required('Name is required'),
+        description: Yup.string(),
+        price: Yup.number()
+            .positive('Price should be positive number')
+            .typeError('Must be a number')
+            .required('Price is required'),
+        thumbnail: Yup.string().matches(
+            /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+            'Enter valid URL for photo!'
+        ),
+        rating: Yup.number()
+            .positive()
+            .min(0, 'Min rating 0')
+            .max(5, 'Max rating 5')
+            .typeError('Must be a number')
+            .required('Rating is required'),
+        stock: Yup.number()
+            .positive('Must be a positive number')
+            .integer('Must be an integer number')
+            .required('Stock is required'),
+        category: Yup.string().required('Category is required'),
+    });
+    ```
+
+  - [Usage example](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/view/components/AddModal/index.tsx#L32):
+
+    ```typescript
+    const formik = useFormik({
+        initialValues: savedLocalStorageValues,
+        validationSchema,
+        onSubmit: (values, { resetForm }) => {
+            dispatch(
+                addProduct({
+                    ...values,
+                    price: +values.price,
+                    rating: +values.rating,
+                    stock: +values.stock,
+                })
+            );
+            resetForm();
+            localStorage.removeItem('ProductAdd');
+        },
+    });
+    ```
+
+</details>
+
+----
+
+## Requirements
+
+### Necessary
+
+- :white_check_mark: Create an application that consists of several components: a header, a search field, a list of products, and a form for adding a new product. Use React Router to create application routes that allow users to navigate between pages.
+- :white_check_mark: Use Redux to manage the application state. Create a reducer and actions that allow adding, deleting, and updating products.
+- :white_check_mark: Create a product list component that receives data from the Redux store and displays it in a table with columns: `ID, name, description, price, photo, rating, stock, and category`. Add the ability to sort and filter products by each column.
+- :white_check_mark: Add a search field that allows users to search for products by name or category. The product list component should update automatically when the user enters a query in the search field.
+- :white_check_mark: Create a form for adding a new product. Use **Formik** and **Yup** to validate the entered data. The form should contain fields for each column.
+- :white_check_mark: Add the ability to delete an item from the list and from the Redux store.
+
+### Unnecessary
+
+- :lock_with_ink_pen: TypeScript
+- :gem: **A try** to beautiful styling
+  - :sunrise: simple and friendly colors
+  - :rotating_light: css-based animations
+  - :rainbow: css-based gradients
+  - `:hover`-effects
+  - `:active`-effects
+  - `position: sticky` usage for **page-** and **table-** headers.
+  - :page_facing_up: modals usage
+- :rocket: **A try** to use functional paradigm and inline code styling
+- :bulb: Additional features (_furthery..._)
+
+### Additionally
+
+- :pushpin: Saving additions/edits state based on `localStorage` (**resistant to page refresh**)
+- :pencil: different kinds of filtering (based on field data-type)
+  - **text-search** filter
+  - **min-max** numeric filter
+  - **unique-values-based** select filter for category column
+- :mag: **multiple** column filtering
+- :tv: **image-slider** for a single _/products/id_
+- :books: additional fields for a single _/product/id_
+- :rotating_light: **notifications** (`add`, `delete`, `edit`)
+
+## Used technologies
+
+- [**DummyDB**](https://dummyjson.com)
+- [**Formik**](https://formik.org)
+- [**Yup**](https://github.com/jquense/yup)
+- [**Router v6**](https://reactrouter.com/en/main)
+- [**Redux Toolkit**](https://redux-toolkit.js.org)
+- [Axios](https://github.com/axios/axios)
+- [SASS](https://github.com/sass/sass)
+- [ClassNames](https://github.com/JedWatson/classnames)
+
+----
+Feel free to explore these directories and customize them according to your project requirements.
