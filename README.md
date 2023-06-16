@@ -1,20 +1,33 @@
 # Table-based e-shop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and [TypeScript](https://github.com/microsoft/TypeScript).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and provided by [TypeScript](https://github.com/microsoft/TypeScript).
+
+## Contents
+
+- [**Prerequisites**](#prerequisites) - _requirement technologies for the project starting_
+- [**Getting Started**](#getting-started) - _instructions for the project starting_
+- [**Notable Things**](#notable-things) - _aspects of the work that I would particularly want to highlight_
+- [**Task Requirements**](#task-requirements) - _what was done_
+  - [**Necessary**](#necessary) - _initial necessary requirements of the task_
+  - [**Unnecessary**](#unnecessary) - _unnecessary recommendation for the work_
+  - [**Additionally**](#additionally) - _additional new functionality and mechanisms implemented by me for the project_
+- [**Used technologies**](#used-technologies) - _technologies that I used (upon requirements and personal choice)_
+
+----
 
 ## Prerequisites
 
 To get started with this project, you need to have the following prerequisites installed on your machine:
 
-- `npm` or `yarn`
 - `Node.JS`
+- `npm` or `yarn`
 
 ## Getting Started
 
 Follow these steps to set up and run the project on your local machine:
 
-1. Open the project directory in your cmd.
-2. Install all necessary dependencies:
+1. **Open the project directory in your cmd.**
+2. **Install all necessary dependencies:**
 
 ```bash
 npm i
@@ -22,7 +35,7 @@ npm i
 yarn
 ```
 
-3. Start the application:
+3. **Start the project:**
 
 ```bash
 npm start
@@ -30,14 +43,15 @@ npm start
 yarn start
 ```
 
-4. Access the application:
-Server: The client will be accessible at <http://localhost:3000>.
+4. **Open the project:**
+The client will be accessible at <http://localhost:3000>.
 
 ## Notable Things
 
 - :mortar_board: **decomposition** of components and project structure
-- :memo: `memoization`, `lazy-loading`, and `<Suspense></Suspense>` component usage
+- :memo: `memoization`, `lazy-loading`, and `<Suspense />` component usage
 - :computer: **react-router** `<Outline />` component usage
+- :new: the **latest versions** of all packages
 - <details>
     <summary><b>&#10071;&#10071; Generic function for parsing props from an object&#10071;&#10071;</b></summary>
 
@@ -66,34 +80,34 @@ Server: The client will be accessible at <http://localhost:3000>.
 
   - [Additional types](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/controller/types/index.ts#L3):
 
-        ```typescript
+    ```typescript
         export type PropType<T extends object> = T[keyof T];
 
         export type TransposedValues<T extends object, C = PropType<T>> = {
             [key in keyof T]?: C[];
         };
-        ```
+    ```
 
   - [Usage example](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/view/components/ProductsTable/index.tsx#L53):
 
-        ```typescript
-            useEffect(() => {
-                const {
-                    price = [],
-                    stock = [],
-                    rating = [],
-                } = parseProps<IProduct, number>(products, ['price', 'stock', 'rating']);
+    ```typescript
+        useEffect(() => {
+            const {
+                price = [],
+                stock = [],
+                rating = [],
+            } = parseProps<IProduct, number>(products, ['price', 'stock', 'rating']);
 
-                setMarginProductsValues({
-                    minPrice: Math.min(...price),
-                    maxPrice: Math.max(...price),
-                    minStock: Math.min(...stock),
-                    maxStock: Math.max(...stock),
-                    minRating: Math.min(...rating),
-                    maxRating: Math.max(...rating),
-                });
-            }, [products]);
-        ```
+            setMarginProductsValues({
+                minPrice: Math.min(...price),
+                maxPrice: Math.max(...price),
+                minStock: Math.min(...stock),
+                maxStock: Math.max(...stock),
+                minRating: Math.min(...rating),
+                maxRating: Math.max(...rating),
+            });
+        }, [products]);
+    ```
 
 </details>
 
@@ -103,70 +117,70 @@ Server: The client will be accessible at <http://localhost:3000>.
   - [Function](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/controller/utils/helpers/index.ts#L55):
 
     ```typescript
-    export const validationSchema = Yup.object().shape({
-        title: Yup.string().required('Name is required'),
-        description: Yup.string(),
-        price: Yup.number()
-            .positive('Price should be positive number')
-            .typeError('Must be a number')
-            .required('Price is required'),
-        thumbnail: Yup.string().matches(
-            /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-            'Enter valid URL for photo!'
-        ),
-        rating: Yup.number()
-            .positive()
-            .min(0, 'Min rating 0')
-            .max(5, 'Max rating 5')
-            .typeError('Must be a number')
-            .required('Rating is required'),
-        stock: Yup.number()
-            .positive('Must be a positive number')
-            .integer('Must be an integer number')
-            .required('Stock is required'),
-        category: Yup.string().required('Category is required'),
-    });
+        export const validationSchema = Yup.object().shape({
+            title: Yup.string().required('Name is required'),
+            description: Yup.string(),
+            price: Yup.number()
+                .positive('Price should be positive number')
+                .typeError('Must be a number')
+                .required('Price is required'),
+            thumbnail: Yup.string().matches(
+                /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                'Enter valid URL for photo!'
+            ),
+            rating: Yup.number()
+                .positive()
+                .min(0, 'Min rating 0')
+                .max(5, 'Max rating 5')
+                .typeError('Must be a number')
+                .required('Rating is required'),
+            stock: Yup.number()
+                .positive('Must be a positive number')
+                .integer('Must be an integer number')
+                .required('Stock is required'),
+            category: Yup.string().required('Category is required'),
+        });
     ```
 
   - [Usage example](https://github.com/danflorko/test-table/blob/24631698bfe6007cb801db1bd0d5cd40ec89cf8f/src/view/components/AddModal/index.tsx#L32):
 
     ```typescript
-    const formik = useFormik({
-        initialValues: savedLocalStorageValues,
-        validationSchema,
-        onSubmit: (values, { resetForm }) => {
-            dispatch(
-                addProduct({
-                    ...values,
-                    price: +values.price,
-                    rating: +values.rating,
-                    stock: +values.stock,
-                })
-            );
-            resetForm();
-            localStorage.removeItem('ProductAdd');
-        },
-    });
+        const formik = useFormik({
+            initialValues: savedLocalStorageValues,
+            validationSchema,
+            onSubmit: (values, { resetForm }) => {
+                dispatch(
+                    addProduct({
+                        ...values,
+                        price: +values.price,
+                        rating: +values.rating,
+                        stock: +values.stock,
+                    })
+                );
+                resetForm();
+                localStorage.removeItem('ProductAdd');
+            },
+        });
     ```
 
 </details>
 
 ----
 
-## Requirements
+## Task Requirements
 
 ### Necessary
 
-- :white_check_mark: Create an application that consists of several components: a header, a search field, a list of products, and a form for adding a new product. Use React Router to create application routes that allow users to navigate between pages.
-- :white_check_mark: Use Redux to manage the application state. Create a reducer and actions that allow adding, deleting, and updating products.
-- :white_check_mark: Create a product list component that receives data from the Redux store and displays it in a table with columns: `ID, name, description, price, photo, rating, stock, and category`. Add the ability to sort and filter products by each column.
+- :white_check_mark: Create an application that consists of several components: a header, a search field, a list of products, and a form for adding a new product. Use **React Router** to create application routes that allow users to navigate between pages.
+- :white_check_mark: Use **Redux** to manage the application state. Create a reducer and actions that allow adding, deleting, and updating products.
+- :white_check_mark: Create a product list component that receives data from the Redux store and displays it in a table with columns: `ID`, `name`, `description`, `price`, `photo`, `rating`, `stock`, and `category`. Add the ability to sort and filter products by each column.
 - :white_check_mark: Add a search field that allows users to search for products by name or category. The product list component should update automatically when the user enters a query in the search field.
 - :white_check_mark: Create a form for adding a new product. Use **Formik** and **Yup** to validate the entered data. The form should contain fields for each column.
 - :white_check_mark: Add the ability to delete an item from the list and from the Redux store.
 
 ### Unnecessary
 
-- :lock_with_ink_pen: TypeScript
+- :lock_with_ink_pen: **TypeScript**
 - :gem: **A try** to beautiful styling
   - :sunrise: simple and friendly colors
   - :rotating_light: css-based animations
