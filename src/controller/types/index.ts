@@ -19,6 +19,24 @@ export interface IProduct {
 	images: string[];
 }
 
+export interface IProductFilters {
+  title: string;
+	description: string;
+	price: {
+    min: number,
+    max: number
+  };
+  rating: {
+    min: number,
+    max: number
+  };
+	stock: {
+    min: number,
+    max: number
+  };
+	category: string;
+}
+
 export type TProductOnlyString = Omit<
 	IProduct,
 	'id' | 'price' | 'rating' | 'stock' | 'images'
