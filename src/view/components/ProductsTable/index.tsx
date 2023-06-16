@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import type { FC } from 'react';
 
 import ProductRow from '../ProductRow';
 import TableHeaderCell from 'src/view/ui/TableHeaderCell';
 import { castedKeys } from 'src/model/constants';
-import { castProperty, sortByProperty } from 'src/controller/utils/helpers';
+import {
+	castProperty,
+	parseProps,
+	sortByProperty,
+} from 'src/controller/utils/helpers';
 import { EProductsKeys, ESortTypes } from 'src/controller/enums';
+
+import type { FC } from 'react';
 import type {
 	IMarginProductsValues,
 	IProduct,
@@ -23,9 +28,13 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 	const [sortType, setSortType] = useState<ESortTypes>(ESortTypes.DISABLE);
 	const [sortColumn, setSortColumn] = useState<keyof IProduct | null>(null);
 	const [sortedProducts, setSortedProducts] = useState<IProduct[]>(products);
-  const [filters, setFilters] = useState<Partial<IProduct> | null>(null);
+	const [filters, setFilters] = useState<Partial<IProduct> | null>(null);
 	const [marginProductsValues, setMarginProductsValues] =
 		useState<IMarginProductsValues>({} as IMarginProductsValues);
+
+	useEffect(() => {
+		setSortedProducts(products);
+	}, [products]);
 
 	const handleMinMaxFiltersChange = useCallback(
 		(key: string, min: number = 0, max: number = 99999) => {
@@ -40,31 +49,20 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 	);
 
 	useEffect(() => {
-		const { prices, stocks, ratings } = products.reduce(
-			(acc, product) => ({
-				prices: [...acc.prices, product.price],
-				stocks: [...acc.stocks, product.stock],
-				ratings: [...acc.ratings, product.rating],
-			}),
-			{
-				prices: [] as number[],
-				stocks: [] as number[],
-				ratings: [] as number[],
-			}
-		);
+		const {
+			price = [],
+			stock = [],
+			rating = [],
+		} = parseProps<IProduct, number>(products, ['price', 'stock', 'rating']);
 
 		setMarginProductsValues({
-			minPrice: Math.min(...prices),
-			maxPrice: Math.max(...prices),
-			minStock: Math.min(...stocks),
-			maxStock: Math.max(...stocks),
-			minRating: Math.min(...ratings),
-			maxRating: Math.max(...ratings),
+			minPrice: Math.min(...price),
+			maxPrice: Math.max(...price),
+			minStock: Math.min(...stock),
+			maxStock: Math.max(...stock),
+			minRating: Math.min(...rating),
+			maxRating: Math.max(...rating),
 		});
-	}, [products]);
-
-	useEffect(() => {
-		setSortedProducts(products);
 	}, [products]);
 
 	const handlESortTypesChange = useCallback(
@@ -102,20 +100,20 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 				fieldName
 			);
 
-      setFilters(prev => ({
-        ...prev,
-        [fieldName]: value,
-      }))
+			setFilters((prev) => ({
+				...prev,
+				[fieldName]: value,
+			}));
 
 			setSortedProducts(
-        products.filter((product) =>
+				products.filter((product) =>
 					product[correctTitle]
 						.toLocaleLowerCase()
 						.includes(value.toLocaleLowerCase())
 				)
-      );
+			);
 		},
-		[sortedProducts]
+		[products]
 	);
 
 	return (
@@ -134,6 +132,7 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 									})}
 								>
 									<TableHeaderCell
+										key={`header-cell-${index}`}
 										totalMin={
 											marginProductsValues[
 												`min${productKey}` as keyof IMarginProductsValues

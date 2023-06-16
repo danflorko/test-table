@@ -1,5 +1,10 @@
-import { number } from 'yup';
 import { EProductsKeys } from '../enums';
+
+export type PropType<T extends object> = T[keyof T];
+
+export type TransposedValues<T extends object, C = PropType<T>> = {
+	[key in keyof T]?: C[];
+};
 
 export interface IProduct {
 	id: number;

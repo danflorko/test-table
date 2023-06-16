@@ -1,5 +1,9 @@
-import { IProduct } from 'src/controller/types';
 import * as Yup from 'yup';
+import type {
+	IProduct,
+	TransposedValues,
+	PropType,
+} from 'src/controller/types';
 
 export const castProperty = <T>(
 	value: string,
@@ -8,6 +12,26 @@ export const castProperty = <T>(
 ) => {
 	return (caster === casted ? value : casted) as T;
 };
+
+export const parseProps = <T extends object, C = PropType<T>>(
+	items: T[],
+	props: (keyof T)[]
+) =>
+	items.reduce(
+		(acc: TransposedValues<T, C>, item: T) => ({
+			...acc,
+			...props.reduce(
+				(props, prop) => ({
+					...props,
+					[prop]: [...(props[prop] as C[]), item[prop]],
+				}),
+				acc
+			),
+		}),
+		Object.fromEntries(
+			props.map((prop) => [prop, [] as C[]])
+		) as TransposedValues<T, C>
+	);
 
 export const sortByProperty = <T extends keyof IProduct>(
 	products: IProduct[],
