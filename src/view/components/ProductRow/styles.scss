@@ -82,6 +82,11 @@
     text-align: center;
     padding: 5px;
 
+    &--container {
+      display: flex;
+      flex-direction: row;
+    }
+
     &--space {
       height: 24px;
       width: 24px;

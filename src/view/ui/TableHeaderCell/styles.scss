@@ -1,4 +1,27 @@
 .table-header {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &--control {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+
+      &--sort {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+  }
+
+  // & input {
+  //   outline: none;
+  //   border-radius: 5px;
+  //   border: 1px solid #E0E0E0;
+  // }
+
   &__img {
     cursor: pointer;
     vertical-align: baseline;
@@ -39,17 +62,10 @@
 
   &__title {
     font-size: 14px;
-    color: #fff;
+    color: #707070;
     margin: 0;
   }
 
-  &__input {
-    width: 30px;
-
-    &--large {
-      width: 60px;
-    }
-  }
 }
 
 .active {

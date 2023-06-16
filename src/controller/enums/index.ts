@@ -22,5 +22,5 @@ export enum EProductsKeys {
 	RATING = 'Rating',
 	STOCK = 'Stock',
 	CATEGORY = 'Category',
-	ACTIONS = 'Actions',
+	ACTIONS = '',
 }

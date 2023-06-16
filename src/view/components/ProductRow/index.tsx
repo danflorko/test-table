@@ -21,8 +21,6 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
 	const navigate = useNavigate();
 	const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
 
-	console.log(editingProduct);
-
 	const handleDelete = useCallback(() => {
 		dispatch(deleteProduct({ id: product.id }));
 	}, [dispatch, product.id]);
@@ -42,22 +40,17 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
 	}, [navigate, product.id]);
 
 	useEffect(() => {
-		const checkLocalStorage = () => {
-			const productFromLocalStorage = localStorage.getItem('Product');
-			const savedLocalStorageValues: IProduct | null = productFromLocalStorage
-				? JSON.parse(productFromLocalStorage)
-				: null;
-			if (
-				savedLocalStorageValues &&
-				savedLocalStorageValues.id === product.id
-			) {
-				console.log('dawd');
-				setEditingProduct(savedLocalStorageValues);
-			}
-		};
+		const productFromLocalStorage = localStorage.getItem('Product');
 
-		checkLocalStorage();
-	}, []);
+		if (productFromLocalStorage) {
+			const savedLocalStorageValues: IProduct = JSON.parse(
+				productFromLocalStorage
+			);
+
+			savedLocalStorageValues.id === product.id &&
+				setEditingProduct(savedLocalStorageValues);
+		}
+	}, [product.id]);
 
 	return (
 		<tr key={product.id} className="products-table__row">
@@ -107,20 +100,22 @@ const ProductRow: FC<ProductRowProps> = ({ product }) => {
 				<>{product.category}</>
 			</TableCell>
 			<TableCell className={'products-table__row__actions'}>
-				<img
-					className="products-table__row__actions--space btn"
-					src="images/buttons/edit.svg"
-					alt="Edit Button"
-					title="Edit"
-					onClick={handleOnEdit}
-				/>
-				<img
-					className="products-table__row__actions--space btn"
-					src="images/buttons/delete.svg"
-					alt="Delete Button"
-					title="Delete"
-					onClick={handleDelete}
-				/>
+				<div className={'products-table__row__actions--container'}>
+					<img
+						className="products-table__row__actions--space btn"
+						src="images/buttons/edit.svg"
+						alt="Edit Button"
+						title="Edit"
+						onClick={handleOnEdit}
+					/>
+					<img
+						className="products-table__row__actions--space btn"
+						src="images/buttons/delete.svg"
+						alt="Delete Button"
+						title="Delete"
+						onClick={handleDelete}
+					/>
+				</div>
 			</TableCell>
 			<div
 				className={

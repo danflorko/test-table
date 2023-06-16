@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import type { FC } from 'react';
 
 import ProductRow from '../ProductRow';
-import TableHeaderCell, { castedKeys } from 'src/view/ui/TableHeaderCell';
+import TableHeaderCell from 'src/view/ui/TableHeaderCell';
+import { castedKeys } from 'src/model/constants';
 import { castProperty, sortByProperty } from 'src/controller/utils/helpers';
 import { EProductsKeys, ESortTypes } from 'src/controller/enums';
 import type {
@@ -110,8 +111,6 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 		},
 		[sortedProducts]
 	);
-
-	console.log(marginProductsValues);
 
 	return (
 		<table className="products-table">
