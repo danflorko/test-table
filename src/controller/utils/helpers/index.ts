@@ -13,6 +13,20 @@ export const castProperty = <T>(
 	return (caster === casted ? value : casted) as T;
 };
 
+export const productRequestBuilder = async (
+	values: Partial<IProduct>,
+	name: string,
+	value: string,
+	postfix: string = ''
+) =>
+	localStorage.setItem(
+		`Product${postfix}`,
+		JSON.stringify({
+			...values,
+			[name]: name === ('price' || 'stock' || 'rating') ? +value : value,
+		})
+	);
+
 export const parseProps = <T extends object, C = PropType<T>>(
 	items: T[],
 	props: (keyof T)[]

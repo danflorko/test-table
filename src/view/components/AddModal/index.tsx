@@ -1,153 +1,89 @@
-import { FC, memo } from 'react';
+import { memo, useCallback } from 'react';
 import { useFormik } from 'formik';
-import { validationSchema } from 'src/controller/utils/helpers';
+import type { IProduct } from 'src/controller/types';
+import type { FC } from 'react';
 
-import InputText from 'src/view/ui/InputText';
-import Dropdown from 'src/view/ui/Dropdown';
+import FormButtons from 'src/view/ui/FormButtons';
+import ProductForm from 'src/view/components/ProductForm';
 import { useAppDispatch, useAppSelector } from 'src/controller/utils/hooks';
 import { addProduct } from 'src/model/reducers/products';
-import { IProduct } from 'src/controller/types';
+import {
+	productRequestBuilder,
+	validationSchema,
+} from 'src/controller/utils/helpers';
 
 interface AddModalProps {
-  isOpen: boolean;
-  handleClose: () => void;
+	isOpen: boolean;
+	handleClose: () => void;
 }
 
 const AddModal: FC<AddModalProps> = ({ isOpen, handleClose }) => {
-  const dispatch = useAppDispatch();
-  const { products } = useAppSelector(s => s.products);
+	const dispatch = useAppDispatch();
+	const { products } = useAppSelector((s) => s.products);
 
-  const productFromLocalStorage = localStorage.getItem('ProductAdd');
-  const savedLocalStorageValues: IProduct = productFromLocalStorage
-    ? JSON.parse(productFromLocalStorage)
-    : {
-      title: '',
-      description: '',
-      price: '',
-      thumbnail: '',
-      rating: '',
-      stock: '',
-      category: '',
-    };
+	const productFromLocalStorage = localStorage.getItem('ProductAdd');
+	const savedLocalStorageValues: Partial<IProduct> = productFromLocalStorage
+		? JSON.parse(productFromLocalStorage)
+		: {
+				title: '',
+				description: '',
+				price: '',
+				thumbnail: '',
+				rating: '',
+				stock: '',
+				category: '',
+		  };
 
-  const formik = useFormik({
-    initialValues: savedLocalStorageValues,
-    validationSchema,
-    onSubmit: (values, { resetForm }) => {
-      dispatch(
-        addProduct({
-          ...values,
-          id: Math.max(...products.map(product => product.id)) + 1,
-          price: +values.price,
-          rating: +values.rating,
-          stock: +values.stock,
-        })
-      );
-      resetForm();
-      localStorage.removeItem('ProductAdd');
-    },
-  });
+	const formik = useFormik<Partial<IProduct>>({
+		initialValues: savedLocalStorageValues,
+		validationSchema,
+		onSubmit: (values, { resetForm }) => {
+			dispatch(
+				addProduct({
+					...values,
+					id: Math.max(...products.map((product) => product.id)) + 1,
+					price: +values.price!,
+					rating: +values.rating!,
+					stock: +values.stock!,
+				})
+			);
+			resetForm();
+			handleClose();
+		},
+	});
 
-  const handleOnChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>,
-    name: string
-  ) => {
-    formik.handleChange(e);
-    localStorage.setItem(
-      'ProductAdd',
-      JSON.stringify({
-        ...formik.values,
-        [name]:
-          name === ('price' || 'stock' || 'rating')
-            ? +e.target.value
-            : e.target.value,
-      })
-    );
-  };
+	const handleOnChange = useCallback(
+		(
+			e:
+				| React.ChangeEvent<HTMLInputElement>
+				| React.ChangeEvent<HTMLSelectElement>,
+			name: string
+		) => {
+			formik.handleChange(e);
+			productRequestBuilder(formik.values, name, e.target.value, 'Add');
+		},
+		[formik]
+	);
 
-  return (
-    <div
-      className={isOpen ? 'products__add-modal active' : 'products__add-modal'}
-    >
-      <form
-        className="products__add-form"
-        onSubmit={formik.handleSubmit}
-      >
-        <div className="form__fields">
-          <InputText
-            name="title"
-            label="Name"
-            value={formik.values.title}
-            onChange={handleOnChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.title && formik.errors.title}
-          />
-          <InputText
-            name="description"
-            label="Description"
-            value={formik.values.description}
-            onChange={handleOnChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.description && formik.errors.description}
-          />
-          <InputText
-            name="price"
-            label="Price"
-            value={formik.values.price}
-            onChange={handleOnChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.price && formik.errors.price}
-          />
-          <InputText
-            name="rating"
-            label="Rating"
-            value={formik.values.rating}
-            onChange={handleOnChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.rating && formik.errors.rating}
-          />
-          <InputText
-            name="thumbnail"
-            label="Photo"
-            value={formik.values.thumbnail}
-            onChange={handleOnChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.thumbnail && formik.errors.thumbnail}
-          />
-          <InputText
-            name="stock"
-            label="Stock"
-            value={formik.values.stock}
-            onChange={handleOnChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.stock && formik.errors.stock}
-          />
-          <Dropdown
-            name="category"
-            label="Category"
-            value={formik.values.category}
-            onChange={handleOnChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.category && formik.errors.category}
-          />
-        </div>
-        <div className="form__buttons">
-          <button type="submit" className="form__button btn">
-            Add
-          </button>
-          <button
-            type="button"
-            className="form__button btn"
-            onClick={handleClose}
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+	return (
+		<div
+			className={isOpen ? 'products__add-modal active' : 'products__add-modal'}
+		>
+			<form className="products__add-form" onSubmit={formik.handleSubmit}>
+				<ProductForm
+					formik={formik}
+					skippedValues={['id']}
+					className={'form__fields'}
+					onChange={handleOnChange}
+				/>
+				<FormButtons
+					label={'Add'}
+					className={'form__buttons'}
+					onCancel={handleClose}
+				/>
+			</form>
+		</div>
+	);
 };
 
 export default memo(AddModal);
