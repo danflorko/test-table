@@ -4,7 +4,11 @@ import classNames from 'classnames';
 import ProductRow from '../ProductRow';
 import TableHeaderCell from 'src/view/ui/TableHeaderCell';
 import { castedKeys } from 'src/model/constants';
-import { castProperty, sortByProperty } from 'src/controller/utils/helpers';
+import {
+	castProperty,
+	parseProps,
+	sortByProperty,
+} from 'src/controller/utils/helpers';
 import { EProductsKeys, ESortTypes } from 'src/model/enums';
 
 import type { FC } from 'react';
@@ -50,26 +54,19 @@ const ProductsTable: FC<ProductTableProps> = ({ products }) => {
 	);
 
 	useEffect(() => {
-		const { prices, stocks, ratings } = products.reduce(
-			(acc, product) => ({
-				prices: [...acc.prices, product.price],
-				stocks: [...acc.stocks, product.stock],
-				ratings: [...acc.ratings, product.rating],
-			}),
-			{
-				prices: [] as number[],
-				stocks: [] as number[],
-				ratings: [] as number[],
-			}
-		);
+		const {
+			price = [],
+			stock = [],
+			rating = [],
+		} = parseProps<IProduct>(products, ['price', 'stock', 'rating']);
 
 		setMarginProductsValues({
-			minPrice: Math.min(...prices),
-			maxPrice: Math.max(...prices),
-			minStock: Math.min(...stocks),
-			maxStock: Math.max(...stocks),
-			minRating: Math.min(...ratings),
-			maxRating: Math.max(...ratings),
+			minPrice: Math.min(...(price as number[])),
+			maxPrice: Math.max(...(price as number[])),
+			minStock: Math.min(...(stock as number[])),
+			maxStock: Math.max(...(stock as number[])),
+			minRating: Math.min(...(rating as number[])),
+			maxRating: Math.max(...(rating as number[])),
 		});
 	}, [products]);
 

@@ -97,26 +97,19 @@ The client will be accessible at <http://localhost:3000>.
 
     ```typescript
         useEffect(() => {
-            const { prices, stocks, ratings } = products.reduce(
-                (acc, product) => ({
-                    prices: [...acc.prices, product.price],
-                    stocks: [...acc.stocks, product.stock],
-                    ratings: [...acc.ratings, product.rating],
-                }),
-                {
-                    prices: [] as number[],
-                    stocks: [] as number[],
-                    ratings: [] as number[],
-                }
-            );
+            const {
+                price = [],
+                stock = [],
+                rating = [],
+            } = parseProps<IProduct>(products, ['price', 'stock', 'rating']);
 
             setMarginProductsValues({
-                minPrice: Math.min(...prices),
-                maxPrice: Math.max(...prices),
-                minStock: Math.min(...stocks),
-                maxStock: Math.max(...stocks),
-                minRating: Math.min(...ratings),
-                maxRating: Math.max(...ratings),
+                minPrice: Math.min(...(price as number[])),
+                maxPrice: Math.max(...(price as number[])),
+                minStock: Math.min(...(stock as number[])),
+                maxStock: Math.max(...(stock as number[])),
+                minRating: Math.min(...(rating as number[])),
+                maxRating: Math.max(...(rating as number[])),
             });
         }, [products]);
     ```
